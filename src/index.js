@@ -3,6 +3,49 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { createJWTToken, setupAxiosHeader } from './service/AuthenticationService';
+
+window.API_URL = "http://localhost:8080";
+window.APP_URL = "http://localhost:3000";
+window.TOKEN_HEADER = 'authenticatedUserToken';
+window.REFRESH_TOKEN_HEADER = 'authenticatedUserRefreshToken';
+
+setupAxiosHeader(createJWTToken(Cookies.get(window.TOKEN_HEADER)));
+
+axios.interceptors.response.use(
+  (response) => {
+      return response;
+  },
+  (error) => {
+      const originalRequest = error.config;
+      let refreshToken = Cookies.get(window.REFRESH_TOKEN_HEADER);
+      // Only Unauthorized error code was processed
+      if (error.response.status === 401 &&
+          !originalRequest._retry
+      ) {
+          originalRequest._retry = true;
+          return axios
+              .post(`${window.API_URL}/refresh`, {},
+                  { headers: { 'refreshToken': createJWTToken(refreshToken) } })
+              .then((res) => {
+                  if (res.status === 200) {
+                      // почему-то достаточно обновить токен в header оригинального запроса
+                      // и он обновляется также в axios header
+                      originalRequest.headers.authorization = createJWTToken(res.data.jwt);
+                      Cookies.set(window.TOKEN_HEADER, res.data.jwt, { expires: 7 });
+                      Cookies.set(window.REFRESH_TOKEN_HEADER, res.data.jwtRefresh, { expires: 7 });
+                      return axios(originalRequest);
+                  }
+              })
+              .catch(() => {
+                document.location.href = window.APP_URL + '/login';
+              });
+      } 
+      return Promise.reject(error);
+  }
+);
 
 ReactDOM.render(
   <React.StrictMode>
