@@ -67,8 +67,8 @@ class AuthenticationService {
             (error) => {
                 const originalRequest = error.config;
                 let refreshToken = localStorage.getItem(REFRESH_TOKEN_HEADER);
-                if (// не работает. должен принимать ошибку из JwtAuthenticationEntryPoint
-                    //error.response.status === 401 &&
+                // Only Unauthorized error code was processed
+                if (error.response.status === 401 &&
                     !originalRequest._retry
                 ) {
                     originalRequest._retry = true;
@@ -81,6 +81,8 @@ class AuthenticationService {
                                 localStorage.setItem(TOKEN_HEADER, res.data.jwt);
                                 localStorage.setItem(REFRESH_TOKEN_HEADER, res.data.jwtRefresh)
                                 return axios(originalRequest);
+                            } else {
+                                // throw to login page
                             }
                         });
                 } 
