@@ -7,8 +7,11 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { createJWTToken, setupAxiosHeader } from './service/AuthenticationService';
 
-window.API_URL = "http://localhost:8080";
-window.APP_URL = "http://localhost:3000";
+
+window.API_URL = "http://193.123.71.211:8080";
+window.APP_URL = "http://193.123.71.211:3000";
+//window.API_URL = "http://localhost:8080";
+//window.APP_URL = "http://localhost:3000";
 window.TOKEN_HEADER = 'authenticatedUserToken';
 window.REFRESH_TOKEN_HEADER = 'authenticatedUserRefreshToken';
 
@@ -40,6 +43,7 @@ axios.interceptors.response.use(
                   }
               })
               .catch(() => {
+                // TODO сделать проверку неправильно введенных данных
                 document.location.href = window.APP_URL + '/login';
               });
       } 
