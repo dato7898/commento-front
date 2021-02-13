@@ -2,14 +2,13 @@ import axios from 'axios'
 
 export const INSTRUCTOR = 'in28minutes'
 const PASSWORD = 'dummy'
-const API_URL = 'http://localhost:8080'
-const INSTRUCTOR_API_URL = `${API_URL}/instructors/${INSTRUCTOR}`
+const INSTRUCTOR_API_URL = `${window.API_URL}/instructors/${INSTRUCTOR}`
 
 class PostDataService {
 
     retrieveAllPosts(name) {
         //console.log('executed service')
-        return axios.get(`${API_URL}/post`,
+        return axios.get(`${window.API_URL}/post`,
             //{ headers: { authorization: 'Basic ' + window.btoa(INSTRUCTOR + ":" + PASSWORD) } }
         );
     }
