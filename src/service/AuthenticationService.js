@@ -12,10 +12,14 @@ class AuthenticationService {
         return axios.post(`${window.API_URL}/authenticate`, {
             username,
             password
-        })
+        });
     }
 
-    registerSuccessfulLogin(token, refreshToken) {
+    executeRegister(user) {
+        return axios.post(`${window.API_URL}/register`, user);
+    }
+
+    loginSuccessful(token, refreshToken) {
         Cookies.set(window.TOKEN_HEADER, token, { expires: 7 });
         Cookies.set(window.REFRESH_TOKEN_HEADER, refreshToken, { expires: 7 })
         setupAxiosHeader(createJWTToken(token));

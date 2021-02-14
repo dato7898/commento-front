@@ -42,9 +42,9 @@ axios.interceptors.response.use(
                       return axios(originalRequest);
                   }
               })
-              .catch(() => {
-                // TODO сделать проверку неправильно введенных данных
-                document.location.href = window.APP_URL + '/login';
+              .catch((error) => {
+                if (/*error.response.status !== 401*/ window.location.href !== window.APP_URL + "/login")
+                  document.location.href = window.APP_URL + '/login';
               });
       } 
       return Promise.reject(error);

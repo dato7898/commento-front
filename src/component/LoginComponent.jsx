@@ -30,7 +30,7 @@ class LoginComponent extends Component {
         AuthenticationService
             .executeJwtAuthenticationService(this.state.username, this.state.password)
             .then((response) => {
-                AuthenticationService.registerSuccessfulLogin(response.data.jwt, response.data.jwtRefresh)
+                AuthenticationService.loginSuccessful(response.data.jwt, response.data.jwtRefresh)
                 this.props.history.push('/post')
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })
