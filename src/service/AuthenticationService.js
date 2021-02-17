@@ -41,3 +41,9 @@ export const setupAxiosHeader = (token) => {
         axios.defaults.headers.common['authorization'] = token;
     }
 }
+
+export const logout = () => {
+    Cookies.remove(window.TOKEN_HEADER);
+    Cookies.remove(window.REFRESH_TOKEN_HEADER);
+    axios.defaults.headers.common['authorization'] = undefined;
+};

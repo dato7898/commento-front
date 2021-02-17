@@ -25,7 +25,8 @@ axios.interceptors.response.use(
       const originalRequest = error.config;
       let refreshToken = Cookies.get(window.REFRESH_TOKEN_HEADER);
       // Only Unauthorized error code was processed
-      if (error.response.status === 401 &&
+      if (refreshToken &&
+          error.response.status === 401 &&
           !originalRequest._retry
       ) {
           originalRequest._retry = true;

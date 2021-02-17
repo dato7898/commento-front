@@ -5,13 +5,14 @@ import CourseComponent from './CourseComponent';
 import LoginComponent from './LoginComponent';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import RegisterComponent from './RegisterComponent';
+import MenuComponent from './MenuComponent';
 
 class InstructorApp extends Component {
     render() {
         return (
             <Router>
                 <>
-                    <h1>MenuComponent</h1>
+                    <MenuComponent />
                     <Switch>
                         <AuthenticatedRoute path="/" exact component={ListPostComponent} />
                         {/* Сделать редирект на home когда залогинен */}
