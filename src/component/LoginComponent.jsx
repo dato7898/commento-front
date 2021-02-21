@@ -49,6 +49,8 @@ class LoginComponent extends Component {
                         <h4><a href={window.API_URL + "/oauth2/authorization/google"}>Login with Google</a></h4>
                         <h4><a href={window.API_URL + "/oauth2/authorization/github"}>Login with GitHub</a></h4>
                         <h4><a href={window.API_URL + "/oauth2/authorization/facebook"}>Login with Facebook</a></h4>
+                        <h4><a href={window.API_URL + "/oauth2/authorization/yandex"}>Login with Yandex</a></h4>
+                        <h4><a href={window.API_URL + "/oauth2/authorization/vkontakte"}>Login with Vkontakte</a></h4>
                     </div>
                     User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
                     Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
