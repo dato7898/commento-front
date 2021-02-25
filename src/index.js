@@ -22,6 +22,10 @@ axios.interceptors.response.use(
       return response;
   },
   (error) => {
+      if (error.response.data.code === 401) {
+        Cookies.remove(window.REFRESH_TOKEN_HEADER);
+        Cookies.remove(window.TOKEN_HEADER);
+      }
       const originalRequest = error.config;
       let refreshToken = Cookies.get(window.REFRESH_TOKEN_HEADER);
       // Only Unauthorized error code was processed
@@ -44,6 +48,7 @@ axios.interceptors.response.use(
                   }
               })
               .catch((error) => {
+                // Этот код никогда не сработает?
                 if (/*error.response.status !== 401*/ window.location.href !== window.APP_URL + "/login")
                   document.location.href = window.APP_URL + '/login';
               });
