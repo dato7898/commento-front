@@ -14,6 +14,7 @@ window.APP_URL = "http://193.123.71.211:3000";
 //window.APP_URL = "http://localhost:3000";
 window.TOKEN_HEADER = 'authenticatedUserToken';
 window.REFRESH_TOKEN_HEADER = 'authenticatedUserRefreshToken';
+window.RESET_PASSWORD_CODE = 'resetPasswordCode';
 
 setupAxiosHeader(createJWTToken(Cookies.get(window.TOKEN_HEADER)));
 
@@ -22,7 +23,7 @@ axios.interceptors.response.use(
       return response;
   },
   (error) => {
-      if (error.response.data.code === 401) {
+      if (error.response && error.response.data.code === 401) {
         Cookies.remove(window.REFRESH_TOKEN_HEADER);
         Cookies.remove(window.TOKEN_HEADER);
       }
@@ -30,6 +31,7 @@ axios.interceptors.response.use(
       let refreshToken = Cookies.get(window.REFRESH_TOKEN_HEADER);
       // Only Unauthorized error code was processed
       if (refreshToken &&
+          error.response &&
           error.response.status === 401 &&
           !originalRequest._retry
       ) {
