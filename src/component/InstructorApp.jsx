@@ -11,6 +11,7 @@ import ForgotPasswordComponent from './ForgotPasswordComponent';
 import ResetPasswordComponent from './ResetPasswordComponent';
 import ResetPasswordRoute from './ResetPasswordRoute';
 import ErrorPageComponent from './ErrorPageComponent';
+import BusinessRegisterComponent from './BusinessRegisterComponent';
 
 class InstructorApp extends Component {
     render() {
@@ -27,6 +28,7 @@ class InstructorApp extends Component {
                         <AuthenticatedRoute path="/post/:id" exact component={CourseComponent} />
                         <ResetPasswordRoute path="/reset_password" exact component={ResetPasswordComponent} />
                         <Route path="/error" exact component={ErrorPageComponent} />
+                        <NotAuthenticatedRoute path="/register_business" exact component={BusinessRegisterComponent} />
                     </Switch>
                 </>
             </Router>
