@@ -1,9 +1,5 @@
 import axios from 'axios'
 
-export const INSTRUCTOR = 'in28minutes'
-const PASSWORD = 'dummy'
-const INSTRUCTOR_API_URL = `${window.API_URL}/instructors/${INSTRUCTOR}`
-
 class PostDataService {
 
     retrieveAllPosts(name) {
@@ -13,21 +9,25 @@ class PostDataService {
         );
     }
 
-    deleteCourse(name, id) {
+    deletePost(id) {
         //console.log('executed service')
-        return axios.delete(`${INSTRUCTOR_API_URL}/courses/${id}`);
+        return axios.delete(`${window.API_URL}/post/${id}`);
     }
 
-    retrieveCourse(name, id) {
-        return axios.get(`${INSTRUCTOR_API_URL}/courses/${id}`);
+    retrievePost(id) {
+        return axios.get(`${window.API_URL}/post/${id}`);
     }
 
-    updateCourse(name, id, course) {
-        return axios.put(`${INSTRUCTOR_API_URL}/courses/${id}`, course);
+    updatePost(id, post) {
+        return axios.put(`${window.API_URL}/post/${id}`, post);
     }
 
-    createCourse(name, course) {
-        return axios.post(`${INSTRUCTOR_API_URL}/courses/`, course);
+    createPost(post) {
+        return axios.post(`${window.API_URL}/post/`, post);
+    }
+
+    retrievePost(id) {
+        return axios.get(`${window.API_URL}/post/${id}`);
     }
 }
 

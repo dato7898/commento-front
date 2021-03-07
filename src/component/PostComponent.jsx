@@ -1,54 +1,51 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import CourseDataService from '../service/PostDataService';
+import PostDataService from '../service/PostDataService';
 
-const INSTRUCTOR = 'in28minutes'
-
-class CourseComponent extends Component {
+class PostComponent extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             id: this.props.match.params.id,
             description: ''
-        }
+        };
 
-        this.onSubmit = this.onSubmit.bind(this)
-        this.validate = this.validate.bind(this)
+        this.onSubmit = this.onSubmit.bind(this);
+        this.validate = this.validate.bind(this);
 
     }
 
     componentDidMount() {
 
-        console.log(this.state.id)
+        console.log(this.state.id);
 
         // eslint-disable-next-line
         if (this.state.id == -1) {
-            return
+            return;
         }
 
-        CourseDataService.retrieveCourse(INSTRUCTOR, this.state.id)
+        PostDataService.retrievePost(this.state.id)
             .then(response => this.setState({
                 description: response.data.description
-            }))
+            }));
     }
 
     onSubmit(values) {
-        let username = INSTRUCTOR
 
-        let course = {
+        let post = {
             id: this.state.id,
-            description: values.description,
-            targetDate: values.targetDate
+            title: values.title,
+            description: values.description
         }
 
         if (this.state.id === -1) {
-            CourseDataService.createCourse(username, course)
-                .then(() => this.props.history.push('/courses'))
+            PostDataService.createCourse(post)
+                .then(() => this.props.history.push('/post'))
         } else {
-            CourseDataService.updateCourse(username, this.state.id, course)
-                .then(() => this.props.history.push('/courses'))
+            PostDataService.updateCourse(this.state.id, post)
+                .then(() => this.props.history.push('/post'))
         }
 
         console.log(values);
@@ -70,7 +67,7 @@ class CourseComponent extends Component {
 
         return (
             <div>
-            <h3>Course</h3>
+            <h3>Post</h3>
             <div className="container">
                 <Formik
                     initialValues={{ id, description }}
@@ -107,4 +104,4 @@ class CourseComponent extends Component {
 
 }
 
-export default CourseComponent
+export default PostComponent;

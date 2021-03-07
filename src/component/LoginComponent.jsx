@@ -13,8 +13,8 @@ class LoginComponent extends Component {
             showSuccessMessage: false
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.loginClicked = this.loginClicked.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.loginClicked = this.loginClicked.bind(this);
     }
 
     handleChange(event) {
@@ -30,11 +30,11 @@ class LoginComponent extends Component {
         AuthenticationService
             .executeJwtAuthenticationService(this.state.username, this.state.password)
             .then((response) => {
-                AuthenticationService.loginSuccessful(response.data.jwt, response.data.jwtRefresh)
-                this.props.history.push('/post')
+                AuthenticationService.loginSuccessful(response.data.jwt, response.data.jwtRefresh);
+                this.props.history.push('/post');
             }).catch(() => {
-                this.setState({ showSuccessMessage: false })
-                this.setState({ hasLoginFailed: true })
+                this.setState({ showSuccessMessage: false });
+                this.setState({ hasLoginFailed: true });
             })
     }
 
@@ -49,6 +49,7 @@ class LoginComponent extends Component {
                         <h4><a href={window.API_URL + "/oauth2/authorization/google"}>Login with Google</a></h4>
                         <h4><a href={window.API_URL + "/oauth2/authorization/github"}>Login with GitHub</a></h4>
                         <h4><a href={window.API_URL + "/oauth2/authorization/facebook"}>Login with Facebook</a></h4>
+                        <h4><a href={window.API_URL + "/oauth2/authorization/instagram"}>Login with Instagram</a></h4>
                         <h4><a href={window.API_URL + "/oauth2/authorization/yandex"}>Login with Yandex</a></h4>
                         <h4><a href={window.API_URL + "/oauth2/authorization/vkontakte"}>Login with Vkontakte</a></h4>
                     </div>

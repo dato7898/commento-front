@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ListPostComponent from './ListPostComponent';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import CourseComponent from './CourseComponent';
+import PostComponent from './PostComponent';
 import LoginComponent from './LoginComponent';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import NotAuthenticatedRoute from './NotAuthenticatedRoute';
@@ -13,7 +13,7 @@ import ResetPasswordRoute from './ResetPasswordRoute';
 import ErrorPageComponent from './ErrorPageComponent';
 import BusinessRegisterComponent from './BusinessRegisterComponent';
 
-class InstructorApp extends Component {
+class CommentoApp extends Component {
     render() {
         return (
             <Router>
@@ -25,15 +25,15 @@ class InstructorApp extends Component {
                         <NotAuthenticatedRoute path="/register" exact component={RegisterComponent} />
                         <NotAuthenticatedRoute path="/forgot_password" exact component={ForgotPasswordComponent} />
                         <AuthenticatedRoute path="/post" exact component={ListPostComponent} />
-                        <AuthenticatedRoute path="/post/:id" exact component={CourseComponent} />
+                        <AuthenticatedRoute path="/post/:id" exact component={PostComponent} />
                         <ResetPasswordRoute path="/reset_password" exact component={ResetPasswordComponent} />
                         <Route path="/error" exact component={ErrorPageComponent} />
                         <NotAuthenticatedRoute path="/register_business" exact component={BusinessRegisterComponent} />
                     </Switch>
                 </>
             </Router>
-        )
+        );
     }
 }
 
-export default InstructorApp
+export default CommentoApp;

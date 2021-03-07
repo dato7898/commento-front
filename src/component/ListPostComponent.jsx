@@ -1,57 +1,67 @@
 import React, { Component } from 'react';
 import PostDataService, { INSTRUCTOR } from '../service/PostDataService';
 
-class ListCoursesComponent extends Component {
+class ListPostComponent extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             posts: [],
             message: null
-        }
-        this.refreshCourses = this.refreshCourses.bind(this)
-        this.updateCourseClicked = this.updateCourseClicked.bind(this)
-        this.deleteCourseClicked = this.deleteCourseClicked.bind(this)
-        this.addCourseClicked = this.addCourseClicked.bind(this)
-        this.goHome = this.goHome.bind(this)
+        };
+        this.refreshCourses = this.refreshPosts.bind(this);
+        this.updateCourseClicked = this.updatePostClicked.bind(this);
+        this.deleteCourseClicked = this.deletePostClicked.bind(this);
+        this.addCourseClicked = this.addPostClicked.bind(this);
+        this.goHome = this.goHome.bind(this);
+        this.getPostClicked = this.getPostClicked.bind(this);
     }
 
     componentDidMount() {
-        this.refreshCourses();
+        this.refreshPosts();
     }
 
-    refreshCourses() {
-        PostDataService.retrieveAllPosts(INSTRUCTOR)//HARDCODED
+    refreshPosts() {
+        PostDataService.retrieveAllPosts()
             .then(
                 response => {
                     console.log(response);
-                    this.setState({ posts: response.data })
+                    this.setState({ posts: response.data });
                 }
             )
     }
 
-    deleteCourseClicked(id) {
-        PostDataService.deleteCourse(INSTRUCTOR, id)
+    deletePostClicked(id) {
+        PostDataService.deletePost(id)
             .then(
                 response => {
-                    this.setState({ message: `Delete of course ${id} Successful` })
-                    this.refreshCourses()
+                    this.setState({ message: `Delete of post ${id} Successful` });
+                    this.refreshCourses();
                 }
             )
     
     }
 
-    updateCourseClicked(id) {
+    updatePostClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/courses/${id}`)
+        this.props.history.push(`/post/${id}`);
     }
 
-    addCourseClicked() {
-        this.props.history.push(`/courses/-1`)
+    addPostClicked() {
+        this.props.history.push(`/post/-1`);
+    }
+
+    getPostClicked(id) {
+        PostDataService.getPost(id)
+            .then(
+                respose => {
+                    this.props.history.push(`/post/${id}`);
+                }
+            );
     }
 
     goHome() {
-        this.props.history.push('/')
+        this.props.history.push('/');
     }
 
     render() {
@@ -65,6 +75,7 @@ class ListCoursesComponent extends Component {
                             <tr>
                                 <th>Id</th>
                                 <th>Description</th>
+                                <th>Open</th>
                                 <th>Update</th>
                                 <th>Delete</th>
                             </tr>
@@ -76,15 +87,16 @@ class ListCoursesComponent extends Component {
                                         <tr key={post.id}>
                                             <td>{post.title}</td>
                                             <td>{post.details}</td>
-                                            <td><button className="btn btn-success" onClick={() => this.updateCourseClicked(post.id)}>Update</button></td>
-                                            <td><button className="btn btn-warning" onClick={() => this.deleteCourseClicked(post.id)}>Delete</button></td>
+                                            <td><button className="btn btn-success" onClick={() => this.getPostClicked(post.id)}>Open</button></td>
+                                            <td><button className="btn btn-success" onClick={() => this.updatePostClicked(post.id)}>Update</button></td>
+                                            <td><button className="btn btn-warning" onClick={() => this.deletePostClicked(post.id)}>Delete</button></td>
                                         </tr>
                                 )
                             }
                         </tbody>
                     </table>
                     <div className="row">
-                        <button className="btn btn-success" onClick={this.addCourseClicked}>Add</button>
+                        <button className="btn btn-success" onClick={this.addPostClicked}>Add</button>
                         <button className="btn btn-success" onClick={this.goHome}>Home</button>
                     </div>
                 </div>
@@ -93,4 +105,4 @@ class ListCoursesComponent extends Component {
     }
 }
 
-export default ListCoursesComponent
+export default ListPostComponent;
