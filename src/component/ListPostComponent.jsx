@@ -9,10 +9,10 @@ class ListPostComponent extends Component {
             posts: [],
             message: null
         };
-        this.refreshCourses = this.refreshPosts.bind(this);
-        this.updateCourseClicked = this.updatePostClicked.bind(this);
-        this.deleteCourseClicked = this.deletePostClicked.bind(this);
-        this.addCourseClicked = this.addPostClicked.bind(this);
+        this.refreshPosts = this.refreshPosts.bind(this);
+        this.updatePostClicked = this.updatePostClicked.bind(this);
+        this.deletePostClicked = this.deletePostClicked.bind(this);
+        this.addPostClicked = this.addPostClicked.bind(this);
         this.goHome = this.goHome.bind(this);
         this.getPostClicked = this.getPostClicked.bind(this);
     }
@@ -52,12 +52,7 @@ class ListPostComponent extends Component {
     }
 
     getPostClicked(id) {
-        PostDataService.getPost(id)
-            .then(
-                respose => {
-                    this.props.history.push(`/post/${id}`);
-                }
-            );
+        this.props.history.push(`/post/${id}`);
     }
 
     goHome() {

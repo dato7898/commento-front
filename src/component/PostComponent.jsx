@@ -8,8 +8,11 @@ class PostComponent extends Component {
         super(props);
 
         this.state = {
-            id: this.props.match.params.id,
-            description: ''
+            // а что если больше Int'a?
+            id: parseInt(this.props.match.params.id),
+            title: '',
+            details: '',
+            isPrivate: false
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -19,8 +22,6 @@ class PostComponent extends Component {
 
     componentDidMount() {
 
-        console.log(this.state.id);
-
         // eslint-disable-next-line
         if (this.state.id == -1) {
             return;
@@ -28,7 +29,9 @@ class PostComponent extends Component {
 
         PostDataService.retrievePost(this.state.id)
             .then(response => this.setState({
-                description: response.data.description
+                details: response.data.details,
+                title: response.data.title,
+                isPrivate: response.data.isPrivate
             }));
     }
 
@@ -37,70 +40,73 @@ class PostComponent extends Component {
         let post = {
             id: this.state.id,
             title: values.title,
-            description: values.description
-        }
+            details: values.details,
+            isPrivate: values.isPrivate
+        };
 
         if (this.state.id === -1) {
-            PostDataService.createCourse(post)
-                .then(() => this.props.history.push('/post'))
+            PostDataService.createPost(post)
+                .then(() => this.props.history.push('/post'));
         } else {
-            PostDataService.updateCourse(this.state.id, post)
-                .then(() => this.props.history.push('/post'))
+            PostDataService.updatePost(this.state.id, post)
+                .then(() => this.props.history.push('/post'));
         }
 
-        console.log(values);
     }
 
     validate(values) {
-        let errors = {}
-        if (!values.description) {
-            errors.description = 'Enter a Description'
-        } else if (values.description.length < 5) {
-            errors.description = 'Enter atleast 5 Characters in Description'
+        let errors = {};
+        if (!values.title) {
+            errors.title = 'Enter a Title';
+        } else if (values.title.length < 5) {
+            errors.title = 'Enter atleast 5 Characters in Title';
         }
     
-        return errors
+        return errors;
     }
 
     render() {
-        let { description, id } = this.state
+        let { title, details, isPrivate } = this.state;
 
         return (
             <div>
-            <h3>Post</h3>
-            <div className="container">
-                <Formik
-                    initialValues={{ id, description }}
-                    onSubmit={this.onSubmit}
-                    validateOnChange={false}
-                    validateOnBlur={false}
-                    validate={this.validate}
-                    // https://github.com/formium/formik/issues/811
-                    enableReinitialize
-                >
-                    {
-                        (props) => (
-                            <Form>
-                                <ErrorMessage name="description" component="div"
-                                        className="alert alert-warning" />
-                                <fieldset className="form-group">
-                                    <label>Id</label>
-                                    <Field className="form-control" type="text" name="id" disabled />
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label>Description</label>
-                                    <Field className="form-control" type="text" name="description" />
-                                </fieldset>
-                                <button className="btn btn-success" type="submit">Save</button>
-                            </Form>
-                        )
-                    }
-                </Formik>
-
+                <h3>Post</h3>
+                <div className="container">
+                    <Formik
+                        initialValues={{ title, details, isPrivate }}
+                        onSubmit={this.onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={false}
+                        validate={this.validate}
+                        // https://github.com/formium/formik/issues/811
+                        enableReinitialize
+                    >
+                        {
+                            (props) => (
+                                <Form>
+                                    <ErrorMessage name="title" component="div"
+                                            className="alert alert-warning" />
+                                    <fieldset className="form-group">
+                                        <label>Title</label>
+                                        <Field className="form-control" type="text" name="title" />
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label>Details</label>
+                                        <Field className="form-control" type="text" name="details" />
+                                    </fieldset>
+                                    <fieldset className="form-group">
+                                        <label>Is Private</label>
+                                        <Field className="form-control" type="checkbox" name="isPrivate" />
+                                    </fieldset>
+                                    <button className="btn btn-success" type="submit">Save</button>
+                                </Form>
+                            )
+                        }
+                    </Formik>
+                </div>
             </div>
-        </div>
-        )
-  }
+        );
+    }
 
 }
 
