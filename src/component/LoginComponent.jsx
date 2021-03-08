@@ -30,8 +30,12 @@ class LoginComponent extends Component {
         AuthenticationService
             .executeJwtAuthenticationService(this.state.username, this.state.password)
             .then((response) => {
+                // TODO Возвращать помимо токена юзера самого юзера и кидать на его бизнес страничку.
+                // Если нет, на страничку регистрации бизнес аккаунта.
+                // Это если он был на страничке логина, а если на странице другого бизнеса,
+                // то запрашивать логин в popup меню и оставлять на той же странице.
                 AuthenticationService.loginSuccessful(response.data.jwt, response.data.jwtRefresh);
-                this.props.history.push('/post');
+                this.props.history.push('/');
             }).catch(() => {
                 this.setState({ showSuccessMessage: false });
                 this.setState({ hasLoginFailed: true });

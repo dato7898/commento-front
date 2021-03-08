@@ -9,7 +9,8 @@ class PostComponent extends Component {
 
         this.state = {
             // а что если больше Int'a?
-            id: parseInt(this.props.match.params.id),
+            businessName: this.props.match.params.businessName,
+            postId: this.props.match.params.postId,
             title: '',
             details: '',
             isPrivate: false
@@ -17,17 +18,15 @@ class PostComponent extends Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.validate = this.validate.bind(this);
-
     }
 
     componentDidMount() {
-
         // eslint-disable-next-line
-        if (this.state.id == -1) {
+        if (this.state.postId === "new") {
             return;
         }
 
-        PostDataService.retrievePost(this.state.id)
+        PostDataService.retrievePost(this.state.businessName, this.state.postId)
             .then(response => this.setState({
                 details: response.data.details,
                 title: response.data.title,
@@ -36,22 +35,20 @@ class PostComponent extends Component {
     }
 
     onSubmit(values) {
-
         let post = {
-            id: this.state.id,
             title: values.title,
             details: values.details,
             isPrivate: values.isPrivate
         };
+        post.id = this.state.postId === "new" ? -1 : parseInt(this.state.postId);
 
-        if (this.state.id === -1) {
-            PostDataService.createPost(post)
-                .then(() => this.props.history.push('/post'));
+        if (this.state.postId === "new") {
+            PostDataService.createPost(this.state.businessName, post)
+                .then(() => this.props.history.push(`/business/${this.props.match.params.businessName}/post`));
         } else {
-            PostDataService.updatePost(this.state.id, post)
-                .then(() => this.props.history.push('/post'));
+            PostDataService.updatePost(this.state.businessName, this.state.postId, post)
+                .then(() => this.props.history.push(`/business/${this.props.match.params.businessName}/post`));
         }
-
     }
 
     validate(values) {
@@ -69,7 +66,7 @@ class PostComponent extends Component {
         let { title, details, isPrivate } = this.state;
 
         return (
-            <div>
+            <div className="class2">
                 <h3>Post</h3>
                 <div className="container">
                     <Formik

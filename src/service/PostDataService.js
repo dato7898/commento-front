@@ -14,20 +14,16 @@ class PostDataService {
         return axios.delete(`${window.API_URL}/business/1/post/${id}`);
     }
 
-    retrievePost(id) {
-        return axios.get(`${window.API_URL}/business/1/post/${id}`);
+    retrievePost(businessName, postId) {
+        return axios.get(`${window.API_URL}/business/${businessName}/post/${postId}`);
     }
 
-    updatePost(id, post) {
-        return axios.put(`${window.API_URL}/business/1/post/${id}`, post);
+    updatePost(businessName, postId, post) {
+        return axios.put(`${window.API_URL}/business/${businessName}/post/${postId}`, post);
     }
 
-    createPost(post) {
-        return axios.post(`${window.API_URL}/business/1/post`, post);
-    }
-
-    retrievePost(id) {
-        return axios.get(`${window.API_URL}/business/1/post/${id}`);
+    createPost(businessName, post) {
+        return axios.post(`${window.API_URL}/business/${businessName}/post`, post);
     }
 }
 

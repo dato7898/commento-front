@@ -33,26 +33,24 @@ class ListPostComponent extends Component {
 
     deletePostClicked(id) {
         PostDataService.deletePost(id)
-            .then(
-                response => {
-                    this.setState({ message: `Delete of post ${id} Successful` });
-                    this.refreshCourses();
-                }
-            )
+            .then(() => {
+                this.setState({ message: `Delete of post ${id} Successful` });
+                this.refreshCourses();
+            });
     
     }
 
     updatePostClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/post/${id}`);
+        this.props.history.push(`/business/${this.props.match.params.businessName}/post/${id}`);
     }
 
     addPostClicked() {
-        this.props.history.push(`/post/-1`);
+        this.props.history.push(`/business/${this.props.match.params.businessName}/post/new`);
     }
 
     getPostClicked(id) {
-        this.props.history.push(`/post/${id}`);
+        this.props.history.push(`/business/${this.props.match.params.businessName}/post/${id}`);
     }
 
     goHome() {
