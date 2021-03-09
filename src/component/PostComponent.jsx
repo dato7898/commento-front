@@ -10,6 +10,7 @@ class PostComponent extends Component {
         this.state = {
             // а что если больше Int'a?
             businessName: this.props.match.params.businessName,
+            boardId: this.props.match.params.boardId,
             postId: this.props.match.params.postId,
             title: '',
             details: '',
@@ -26,7 +27,7 @@ class PostComponent extends Component {
             return;
         }
 
-        PostDataService.retrievePost(this.state.businessName, this.state.postId)
+        PostDataService.retrievePost(this.state.businessName, this.state.boardId, this.state.postId)
             .then(response => this.setState({
                 details: response.data.details,
                 title: response.data.title,

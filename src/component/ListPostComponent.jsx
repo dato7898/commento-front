@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PostDataService, { INSTRUCTOR } from '../service/PostDataService';
+import PostDataService from '../service/PostDataService';
 
 class ListPostComponent extends Component {
 
@@ -22,7 +22,7 @@ class ListPostComponent extends Component {
     }
 
     refreshPosts() {
-        PostDataService.retrieveAllPosts()
+        PostDataService.retrieveAllPosts(this.props.match.params.businessName, this.props.match.params.boardId)
             .then(
                 response => {
                     console.log(response);
@@ -32,25 +32,25 @@ class ListPostComponent extends Component {
     }
 
     deletePostClicked(id) {
-        PostDataService.deletePost(id)
+        PostDataService.deletePost(this.props.match.params.businessName, this.props.match.params.boardId, id)
             .then(() => {
                 this.setState({ message: `Delete of post ${id} Successful` });
-                this.refreshCourses();
+                this.refreshPosts();
             });
     
     }
 
     updatePostClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.props.match.params.businessName}/post/${id}`);
+        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${this.props.match.params.boardId}/post/${id}`);
     }
 
     addPostClicked() {
-        this.props.history.push(`/business/${this.props.match.params.businessName}/post/new`);
+        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${this.props.match.params.boardId}/post/new`);
     }
 
     getPostClicked(id) {
-        this.props.history.push(`/business/${this.props.match.params.businessName}/post/${id}`);
+        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${this.props.match.params.boardId}/post/${id}`);
     }
 
     goHome() {
