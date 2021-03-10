@@ -2,28 +2,28 @@ import axios from 'axios'
 
 class PostDataService {
 
-    retrieveAllPosts(businessName, boardId) {
+    retrieveAllPosts(businessId, boardId) {
         //console.log('executed service')
-        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}/post`,
+        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/post`,
             //{ headers: { authorization: 'Basic ' + window.btoa(INSTRUCTOR + ":" + PASSWORD) } }
         );
     }
 
-    deletePost(businessName, boardId, postId) {
+    deletePost(businessId, boardId, postId) {
         //console.log('executed service')
-        return axios.delete(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}`);
+        return axios.delete(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`);
     }
 
-    retrievePost(businessName, boardId, postId) {
-        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}`);
+    retrievePost(businessId, boardId, postId) {
+        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`);
     }
 
-    updatePost(businessName, boardId, postId, post) {
-        return axios.put(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}`, post);
+    updatePost(businessId, boardId, postId, post) {
+        return axios.put(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`, post);
     }
 
-    createPost(businessName, boardId, post) {
-        return axios.post(`${window.API_URL}/business/${businessName}/board/${boardId}/post`, post);
+    createPost(businessId, boardId, post) {
+        return axios.post(`${window.API_URL}/business/${businessId}/board/${boardId}/post`, post);
     }
 }
 

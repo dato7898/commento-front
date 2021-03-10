@@ -9,7 +9,7 @@ class PostComponent extends Component {
 
         this.state = {
             // а что если больше Int'a?
-            businessName: this.props.match.params.businessName,
+            businessId: this.props.match.params.businessId,
             boardId: this.props.match.params.boardId,
             postId: this.props.match.params.postId,
             title: '',
@@ -27,7 +27,7 @@ class PostComponent extends Component {
             return;
         }
 
-        PostDataService.retrievePost(this.state.businessName, this.state.boardId, this.state.postId)
+        PostDataService.retrievePost(this.state.businessId, this.state.boardId, this.state.postId)
             .then(response => this.setState({
                 details: response.data.details,
                 title: response.data.title,
@@ -41,14 +41,13 @@ class PostComponent extends Component {
             details: values.details,
             isPrivate: values.isPrivate
         };
-        post.id = this.state.postId === "new" ? -1 : parseInt(this.state.postId);
 
         if (this.state.postId === "new") {
-            PostDataService.createPost(this.state.businessName, post)
-                .then(() => this.props.history.push(`/business/${this.props.match.params.businessName}/post`));
+            PostDataService.createPost(this.state.businessId, this.state.boardId, post)
+                .then(() => this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post`));
         } else {
-            PostDataService.updatePost(this.state.businessName, this.state.postId, post)
-                .then(() => this.props.history.push(`/business/${this.props.match.params.businessName}/post`));
+            PostDataService.updatePost(this.state.businessId, this.state.boardId, this.state.postId, post)
+                .then(() => this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post`));
         }
     }
 

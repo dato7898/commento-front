@@ -29,9 +29,9 @@ class CommentoApp extends Component {
                         <ResetPasswordRoute path="/reset_password" exact component={ResetPasswordComponent} />
                         <Route path="/error" exact component={ErrorPageComponent} />
                         <NotAuthenticatedRoute path="/register_business" exact component={BusinessRegisterComponent} />
-                        <Route path={`/business/:businessName/board`} exact component={BoardListComponent} />
-                        <Route path={`/business/:businessName/board/:boardId/post`} exact component={ListPostComponent} />
-                        <Route path={`/business/:businessName/board/:boardId/post/:postId`} exact component={PostComponent} />
+                        <Route path={`/business/:businessId/board`} exact component={BoardListComponent} />
+                        <Route path={`/business/:businessId/board/:boardId/post`} exact component={ListPostComponent} />
+                        <Route path={`/business/:businessId/board/:boardId/post/:postId`} exact component={PostComponent} />
                     </Switch>
                 </>
             </Router>

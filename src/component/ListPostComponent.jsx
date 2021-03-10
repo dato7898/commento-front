@@ -6,6 +6,8 @@ class ListPostComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            businessId: this.props.match.params.businessId,
+            boardId: this.props.match.params.boardId,
             posts: [],
             message: null
         };
@@ -22,7 +24,7 @@ class ListPostComponent extends Component {
     }
 
     refreshPosts() {
-        PostDataService.retrieveAllPosts(this.props.match.params.businessName, this.props.match.params.boardId)
+        PostDataService.retrieveAllPosts(this.state.businessId, this.state.boardId)
             .then(
                 response => {
                     console.log(response);
@@ -32,7 +34,7 @@ class ListPostComponent extends Component {
     }
 
     deletePostClicked(id) {
-        PostDataService.deletePost(this.props.match.params.businessName, this.props.match.params.boardId, id)
+        PostDataService.deletePost(this.state.businessId, this.state.boardId, id)
             .then(() => {
                 this.setState({ message: `Delete of post ${id} Successful` });
                 this.refreshPosts();
@@ -42,15 +44,15 @@ class ListPostComponent extends Component {
 
     updatePostClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${this.props.match.params.boardId}/post/${id}`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/${id}`);
     }
 
     addPostClicked() {
-        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${this.props.match.params.boardId}/post/new`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/new`);
     }
 
     getPostClicked(id) {
-        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${this.props.match.params.boardId}/post/${id}`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/${id}`);
     }
 
     goHome() {

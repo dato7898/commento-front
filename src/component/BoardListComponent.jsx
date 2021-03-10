@@ -6,6 +6,7 @@ class BoardListComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            businessId: this.props.match.params.businessId,
             boards: [],
             message: null
         };
@@ -22,7 +23,7 @@ class BoardListComponent extends Component {
     }
 
     refreshBoards() {
-        BoardDataService.retrieveAllBoards(this.props.match.params.businessName)
+        BoardDataService.retrieveAllBoards(this.state.businessId)
             .then(
                 response => {
                     console.log(response);
@@ -42,15 +43,15 @@ class BoardListComponent extends Component {
 
     updateBoardClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${id}`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${id}`);
     }
 
     addBoardClicked() {
-        this.props.history.push(`/business/${this.props.match.params.businessName}/board/new`);
+        this.props.history.push(`/business/${this.state.businessId}/board/new`);
     }
 
     getBoardClicked(id) {
-        this.props.history.push(`/business/${this.props.match.params.businessName}/board/${id}/post`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${id}/post`);
     }
 
     goHome() {
