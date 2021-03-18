@@ -10,7 +10,6 @@ class PostDataService {
     }
 
     deletePost(businessId, boardId, postId) {
-        //console.log('executed service')
         return axios.delete(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`);
     }
 

@@ -31,7 +31,7 @@ class RegisterComponent extends React.Component {
                 email: this.state.email,
                 password: this.state.password 
             })
-            .then(() => {
+            .then((response) => {
                 this.props.history.push('/login');
             }).catch((error) => {
                 console.log(error);

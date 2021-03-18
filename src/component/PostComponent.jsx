@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PostDataService from '../service/PostDataService';
+import VoteDataService from '../service/VoteDataService';
 
 class PostComponent extends Component {
 
@@ -14,11 +15,15 @@ class PostComponent extends Component {
             postId: this.props.match.params.postId,
             title: '',
             details: '',
-            isPrivate: false
+            isPrivate: false,
+            likes: 0,
+            dislikes: 0
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.validate = this.validate.bind(this);
+        this.getAllVotes = this.getAllVotes.bind(this);
+        this.onVoteChange = this.onVoteChange.bind(this);
     }
 
     componentDidMount() {
@@ -32,6 +37,16 @@ class PostComponent extends Component {
                 details: response.data.details,
                 title: response.data.title,
                 isPrivate: response.data.isPrivate
+            }));
+
+        this.getAllVotes();
+    }
+
+    getAllVotes() {
+        VoteDataService.getAllVotes(this.state.postId)
+            .then(response => this.setState({
+                likes: response.data.true,
+                dislikes: response.data.false
             }));
     }
 
@@ -49,6 +64,11 @@ class PostComponent extends Component {
             PostDataService.updatePost(this.state.businessId, this.state.boardId, this.state.postId, post)
                 .then(() => this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post`));
         }
+    }
+
+    onVoteChange(up) {
+        VoteDataService.changeVote(this.state.postId, { "up": up })
+            .then(this.getAllVotes);
     }
 
     validate(values) {
@@ -100,6 +120,14 @@ class PostComponent extends Component {
                             )
                         }
                     </Formik>
+                    <div>
+                        <button className="btn btn-primary" onClick={() => this.onVoteChange(true)}>Like</button>
+                        <label>{this.state.likes}</label>
+                    </div>
+                    <div>
+                        <button className="btn btn-danger" onClick={() => this.onVoteChange(false)}>Dislike</button>
+                        <label>{this.state.dislikes}</label>
+                    </div>
                 </div>
             </div>
         );
