@@ -10,6 +10,10 @@ class VoteDataService {
         return axios.post(`${window.API_URL}/vote/${postId}`, vote)
     }
 
+    getMyVote(postId) {
+        return axios.get(`${window.API_URL}/vote/${postId}/myvote`)
+    }
+
 }
 
 export default new VoteDataService()
