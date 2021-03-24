@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PostDataService from '../service/PostDataService';
+import PostDataService from '../../service/PostDataService';
 
 class ListPostComponent extends Component {
 

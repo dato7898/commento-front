@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { isUserLoggedIn } from '../service/AuthenticationService';
+import { isUserLoggedIn } from '../../service/AuthenticationService';
 
 class NotAuthenticatedRoute extends Component {
     render() {

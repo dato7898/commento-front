@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthenticationService from '../service/AuthenticationService';
+import AuthenticationService from '../../service/AuthenticationService';
 
 class RegisterComponent extends React.Component {
     constructor(props) {

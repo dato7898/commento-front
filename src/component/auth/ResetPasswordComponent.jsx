@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ForgotPasswordService from '../service/ForgotPasswordService';
+import ForgotPasswordService from '../../service/ForgotPasswordService';
 import Cookies from 'js-cookie';
 
 class ResetPasswordComponent extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BoardDataService from '../service/BoardDataService';
+import BoardDataService from '../../service/BoardDataService';
 
 class BoardListComponent extends Component {
 

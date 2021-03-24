@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import LoginComponent from './LoginComponent';
-import NotAuthenticatedRoute from './NotAuthenticatedRoute';
-import RegisterComponent from './RegisterComponent';
+import LoginComponent from './auth/LoginComponent';
+import NotAuthenticatedRoute from './route/NotAuthenticatedRoute';
+import RegisterComponent from './auth/RegisterComponent';
 import MenuComponent from './MenuComponent';
-import ForgotPasswordComponent from './ForgotPasswordComponent';
-import ResetPasswordComponent from './ResetPasswordComponent';
-import ResetPasswordRoute from './ResetPasswordRoute';
-import ErrorPageComponent from './ErrorPageComponent';
-import BusinessRegisterComponent from './BusinessRegisterComponent';
-import BoardListComponent from './BoardListComponent';
-import ListPostComponent from './ListPostComponent';
-import PostComponent from './PostComponent';
+import ForgotPasswordComponent from './auth/ForgotPasswordComponent';
+import ResetPasswordComponent from './auth/ResetPasswordComponent';
+import ResetPasswordRoute from './route/ResetPasswordRoute';
+import ErrorPageComponent from './error/ErrorPageComponent';
+import BusinessRegisterComponent from './auth/BusinessRegisterComponent';
+import BoardListComponent from './board/BoardListComponent';
+import ListPostComponent from './post/ListPostComponent';
+import PostComponent from './post/PostComponent';
 
 class CommentoApp extends Component {
     render() {

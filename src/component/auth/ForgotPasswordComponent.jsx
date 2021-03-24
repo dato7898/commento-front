@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ForgotPasswordService from '../service/ForgotPasswordService';
+import ForgotPasswordService from '../../service/ForgotPasswordService';
 
 class ForgotPasswordComponent extends Component {
 
