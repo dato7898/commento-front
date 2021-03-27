@@ -1,5 +1,7 @@
 import React from 'react';
+import Dropzone from 'react-dropzone'
 import AuthenticationService from '../../service/AuthenticationService';
+import UploadFileService from '../../service/UploadFileService';
 
 class RegisterComponent extends React.Component {
     constructor(props) {
@@ -13,6 +15,7 @@ class RegisterComponent extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.registerClicked = this.registerClicked.bind(this);
+        this.uploadFile = this.uploadFile.bind(this);
     }
 
     handleChange(event) {
@@ -38,6 +41,18 @@ class RegisterComponent extends React.Component {
             })
     }
 
+    uploadFile(files) {
+        var formData = new FormData();
+        formData.append("file", files[0]);
+        UploadFileService.uploadFile(formData)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     render() {
         return (
             <div>
@@ -47,6 +62,16 @@ class RegisterComponent extends React.Component {
                     Email: <input type="email" name="email" value={this.state.email} onChange={this.handleChange} />
                     Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
                     <button className="btn btn-success" onClick={this.registerClicked}>Register</button>
+                    <Dropzone onDrop={this.uploadFile}>
+                    {({getRootProps, getInputProps}) => (
+                        <section>
+                        <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>Загрузить фото</p>
+                        </div>
+                        </section>
+                    )}
+                    </Dropzone>
                 </div>
             </div>
         )
