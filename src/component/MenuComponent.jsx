@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { isUserLoggedIn as checkUserLogin, logout } from '../service/AuthenticationService';
+import { isUserLoggedIn as checkUserLogin, logout } from '../service/AuthenticationService'
 
 class MenuComponent extends Component {
+
+    componentDidMount() {
+        this.props.handleLoadImage();
+    }
 
     render() {
         const isUserLoggedIn = checkUserLogin();
@@ -16,7 +20,11 @@ class MenuComponent extends Component {
                         {!isUserLoggedIn && <li><Link className="nav-link" to="/login">Sign in</Link></li>}
                         {isUserLoggedIn && <li><Link className="nav-link" to="/login" onClick={() => {
                             logout();
+                            this.props.handleClearImage();
                         }}>Logout</Link></li>}
+                        {isUserLoggedIn && this.props.image &&
+                            <img src={this.props.image} alt="profile picture" width="40" height="40" />
+                        }
                     </ul>
                 </nav>
             </header>

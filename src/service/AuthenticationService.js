@@ -8,7 +8,6 @@ import Cookies from 'js-cookie';
 class AuthenticationService {
 
     executeJwtAuthenticationService(username, password) {
-        console.log(username);
         return axios.post(`${window.API_URL}/authenticate`, {
             username,
             password

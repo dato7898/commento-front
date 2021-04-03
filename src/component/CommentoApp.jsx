@@ -12,18 +12,57 @@ import BusinessRegisterComponent from './auth/BusinessRegisterComponent';
 import BoardListComponent from './board/BoardListComponent';
 import ListPostComponent from './post/ListPostComponent';
 import PostComponent from './post/PostComponent';
+import UploadService from '../service/UploadFileService';
+import { isUserLoggedIn } from '../service/AuthenticationService';
 
 class CommentoApp extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+           image: undefined
+        };
+
+        this.handleLoadImage = this.handleLoadImage.bind(this);
+        this.handleClearImage = this.handleClearImage.bind(this);
+    }
+
+    handleLoadImage() {
+        if (isUserLoggedIn()) {
+            UploadService.loadImage()
+                .then(response => {
+                    if (response.data && response.data.byteLength) {
+                        const base64 = Buffer.from(response.data, 'binary').toString('base64');
+                        this.setState({ image: "data:;base64," + base64 });
+                    }
+                })
+                .catch(error => console.log(error));
+        }
+    }
+
+    handleClearImage() {
+        this.setState({ image: undefined });
+    }
+
     render() {
         return (
             <Router>
                 <>
-                    <MenuComponent />
+                    <MenuComponent 
+                        image={this.state.image} 
+                        handleClearImage={this.handleClearImage} 
+                        handleLoadImage={this.handleLoadImage}
+                    />
                     <Switch>
                         {/* Сделать домашнюю страницу
-                            <AuthenticatedRoute path="/" exact component={ListPostComponent} /> 
+                            <AuthenticatedRoute path="/" exact component={HomePageComponent} /> 
                         */}
-                        <NotAuthenticatedRoute path="/login" exact component={LoginComponent} />
+                        <NotAuthenticatedRoute 
+                            path="/login" 
+                            exact 
+                            component={() => <LoginComponent handleLoadImage={this.handleLoadImage} />} 
+                        />
                         <NotAuthenticatedRoute path="/register" exact component={RegisterComponent} />
                         <NotAuthenticatedRoute path="/forgot_password" exact component={ForgotPasswordComponent} />
                         <ResetPasswordRoute path="/reset_password" exact component={ResetPasswordComponent} />

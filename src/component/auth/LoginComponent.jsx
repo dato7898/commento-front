@@ -35,6 +35,7 @@ class LoginComponent extends Component {
                 // Это если он был на страничке логина, а если на странице другого бизнеса,
                 // то запрашивать логин в popup меню и оставлять на той же странице.
                 AuthenticationService.loginSuccessful(response.data.jwt, response.data.jwtRefresh);
+                this.props.handleLoadImage();
                 this.props.history.push('/');
             }).catch(() => {
                 this.setState({ showSuccessMessage: false });

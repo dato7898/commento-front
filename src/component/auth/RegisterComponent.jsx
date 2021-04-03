@@ -10,7 +10,8 @@ class RegisterComponent extends React.Component {
         this.state = {
            name: "Dato",
            email: "davidd7598@gmail.com",
-           password: "password"
+           password: "password",
+           imageUrl: undefined
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -32,7 +33,8 @@ class RegisterComponent extends React.Component {
             .executeRegister({ 
                 name: this.state.name,
                 email: this.state.email,
-                password: this.state.password 
+                password: this.state.password,
+                imageUrl: this.state.imageUrl
             })
             .then((response) => {
                 this.props.history.push('/login');
@@ -46,7 +48,7 @@ class RegisterComponent extends React.Component {
         formData.append("file", files[0]);
         UploadFileService.uploadFile(formData)
             .then(response => {
-                console.log(response.data);
+                this.setState({ imageUrl: response.data });
             })
             .catch(error => {
                 console.log(error);
