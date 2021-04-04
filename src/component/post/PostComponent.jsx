@@ -26,6 +26,7 @@ class PostComponent extends Component {
         this.getAllVotes = this.getAllVotes.bind(this);
         this.onVoteChange = this.onVoteChange.bind(this);
         this.getMyVote = this.getMyVote.bind(this);
+        this.onTitleChange = this.onTitleChange.bind(this);
     }
 
     componentDidMount() {
@@ -95,6 +96,16 @@ class PostComponent extends Component {
         return errors;
     }
 
+    onTitleChange(e) {
+        const title = e.target.value;
+        PostDataService.postExist(this.state.businessId, this.state.boardId, title)
+            .then(response => {
+                response.data === true 
+                    ? this.setState({ titleError: 'post with title already exist' }) 
+                    : this.setState({ titleError: undefined });
+            })
+    }
+
     render() {
         let { title, details, isPrivate } = this.state;
 
@@ -117,8 +128,13 @@ class PostComponent extends Component {
                                     <ErrorMessage name="title" component="div"
                                             className="alert alert-warning" />
                                     <fieldset className="form-group">
-                                        <label>Title</label>
-                                        <Field className="form-control" type="text" name="title" />
+                                        <label>Title {this.state.titleError && this.state.titleError}</label>
+                                        <Field 
+                                            className="form-control" 
+                                            type="text" 
+                                            name="title" 
+                                            onKeyUp={this.onTitleChange}
+                                        />
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Details</label>

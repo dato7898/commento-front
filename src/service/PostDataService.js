@@ -24,6 +24,11 @@ class PostDataService {
     createPost(businessId, boardId, post) {
         return axios.post(`${window.API_URL}/business/${businessId}/board/${boardId}/post`, post);
     }
+
+    postExist(businessId, boardId, postTitle) {
+        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/postexist?title=${postTitle}`);
+    }
+
 }
 
 export default new PostDataService()
