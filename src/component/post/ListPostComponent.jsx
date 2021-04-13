@@ -44,11 +44,11 @@ class ListPostComponent extends Component {
 
     updatePostClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/${id}`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/${id}/edit`);
     }
 
     addPostClicked() {
-        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/new`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/new/edit`);
     }
 
     getPostClicked(id) {
@@ -83,8 +83,12 @@ class ListPostComponent extends Component {
                                             <td>{post.title}</td>
                                             <td>{post.details}</td>
                                             <td><button className="btn btn-success" onClick={() => this.getPostClicked(post.id)}>Open</button></td>
-                                            <td><button className="btn btn-success" onClick={() => this.updatePostClicked(post.id)}>Update</button></td>
-                                            <td><button className="btn btn-warning" onClick={() => this.deletePostClicked(post.id)}>Delete</button></td>
+                                            {post.isOwner && 
+                                                <>
+                                                    <td><button className="btn btn-success" onClick={() => this.updatePostClicked(post.id)}>Update</button></td>
+                                                    <td><button className="btn btn-warning" onClick={() => this.deletePostClicked(post.id)}>Delete</button></td>
+                                                </>
+                                            }
                                         </tr>
                                 )
                             }

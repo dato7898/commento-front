@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PostDataService from '../../service/PostDataService';
 import VoteDataService from '../../service/VoteDataService';
 
-class PostComponent extends Component {
+class EditPostComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -16,16 +16,11 @@ class PostComponent extends Component {
             title: '',
             details: '',
             isPrivate: false,
-            likes: 0,
-            dislikes: 0,
-            myvote: undefined
+            foundPosts: []
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.validate = this.validate.bind(this);
-        this.getAllVotes = this.getAllVotes.bind(this);
-        this.onVoteChange = this.onVoteChange.bind(this);
-        this.getMyVote = this.getMyVote.bind(this);
         this.onTitleChange = this.onTitleChange.bind(this);
     }
 
@@ -40,24 +35,6 @@ class PostComponent extends Component {
                 details: response.data.details,
                 title: response.data.title,
                 isPrivate: response.data.isPrivate
-            }));
-
-        this.getAllVotes();
-        this.getMyVote();
-    }
-
-    getAllVotes() {
-        VoteDataService.getAllVotes(this.state.postId)
-            .then(response => this.setState({
-                likes: response.data.true,
-                dislikes: response.data.false
-            }));
-    }
-
-    getMyVote() {
-        VoteDataService.getMyVote(this.state.postId)
-            .then(response => this.setState({
-                myvote: response.data.up
             }));
     }
 
@@ -75,14 +52,6 @@ class PostComponent extends Component {
             PostDataService.updatePost(this.state.businessId, this.state.boardId, this.state.postId, post)
                 .then(() => this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post`));
         }
-    }
-
-    onVoteChange(up) {
-        VoteDataService.changeVote(this.state.postId, { "up": up })
-            .then(() => {
-                this.getAllVotes();
-                this.getMyVote();
-            });
     }
 
     validate(values) {
@@ -103,6 +72,11 @@ class PostComponent extends Component {
                 response.data === true 
                     ? this.setState({ titleError: 'post with title already exist' }) 
                     : this.setState({ titleError: undefined });
+            })
+        
+        PostDataService.searchPosts(this.state.businessId, this.state.boardId, title)
+            .then(response => {
+                this.setState({ foundPosts: response.data });
             })
     }
 
@@ -149,14 +123,7 @@ class PostComponent extends Component {
                             )
                         }
                     </Formik>
-                    <div>
-                        <button className={"btn" + (this.state.myvote === true ? " btn-primary" : "")} onClick={() => this.onVoteChange(true)}>Like</button>
-                        <label>{this.state.likes}</label>
-                    </div>
-                    <div>
-                        <button className={"btn" + (this.state.myvote === false ? " btn-danger" : "")} onClick={() => this.onVoteChange(false)}>Dislike</button>
-                        <label>{this.state.dislikes}</label>
-                    </div>
+                    {this.state.foundPosts.map((post, i) => (<div key={i}>{post.title}<br />{post.details}</div>))}
                 </div>
             </div>
         );
@@ -164,4 +131,4 @@ class PostComponent extends Component {
 
 }
 
-export default PostComponent;
+export default EditPostComponent;

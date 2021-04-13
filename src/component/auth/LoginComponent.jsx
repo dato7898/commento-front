@@ -34,7 +34,7 @@ class LoginComponent extends Component {
                 // Если нет, на страничку регистрации бизнес аккаунта.
                 // Это если он был на страничке логина, а если на странице другого бизнеса,
                 // то запрашивать логин в popup меню и оставлять на той же странице.
-                AuthenticationService.loginSuccessful(response.data.jwt, response.data.jwtRefresh);
+                AuthenticationService.loginSuccessful(response.data);
                 this.props.handleLoadImage();
                 this.props.history.push('/');
             }).catch(() => {

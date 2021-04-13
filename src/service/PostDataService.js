@@ -29,6 +29,10 @@ class PostDataService {
         return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/postexist?title=${postTitle}`);
     }
 
+    searchPosts(businessId, boardId, searchQuery) {
+        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/postsearch?searchQuery=${searchQuery}`);
+    }
+
 }
 
 export default new PostDataService()

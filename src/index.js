@@ -15,7 +15,9 @@ window.APP_URL = "http://193.123.71.211:3000";
 window.TOKEN_HEADER = 'authenticatedUserToken';
 window.REFRESH_TOKEN_HEADER = 'authenticatedUserRefreshToken';
 window.RESET_PASSWORD_CODE = 'resetPasswordCode';
+window.USER_ID = "userId";
 
+// проверить что отдаёт createJWTToken
 setupAxiosHeader(createJWTToken(Cookies.get(window.TOKEN_HEADER)));
 
 axios.interceptors.response.use(
@@ -26,6 +28,7 @@ axios.interceptors.response.use(
       if (error.response && error.response.data.code === 401) {
         Cookies.remove(window.REFRESH_TOKEN_HEADER);
         Cookies.remove(window.TOKEN_HEADER);
+        Cookies.remove(window.USER_ID);
       }
       const originalRequest = error.config;
       let refreshToken = Cookies.get(window.REFRESH_TOKEN_HEADER);
@@ -46,6 +49,7 @@ axios.interceptors.response.use(
                       originalRequest.headers.authorization = createJWTToken(res.data.jwt);
                       Cookies.set(window.TOKEN_HEADER, res.data.jwt, { expires: 7 });
                       Cookies.set(window.REFRESH_TOKEN_HEADER, res.data.jwtRefresh, { expires: 7 });
+                      Cookies.set(window.USER_ID, res.data.userId, { expires: 7 });
                       return axios(originalRequest);
                   }
               })

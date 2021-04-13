@@ -11,7 +11,8 @@ import ErrorPageComponent from './error/ErrorPageComponent';
 import BusinessRegisterComponent from './auth/BusinessRegisterComponent';
 import BoardListComponent from './board/BoardListComponent';
 import ListPostComponent from './post/ListPostComponent';
-import PostComponent from './post/PostComponent';
+import EditPostComponent from './post/EditPostComponent';
+import ViewPostComponent from './post/ViewPostComponent';
 import UploadService from '../service/UploadFileService';
 import { isUserLoggedIn } from '../service/AuthenticationService';
 
@@ -70,7 +71,8 @@ class CommentoApp extends Component {
                         <NotAuthenticatedRoute path="/register_business" exact component={BusinessRegisterComponent} />
                         <Route path={`/business/:businessId/board`} exact component={BoardListComponent} />
                         <Route path={`/business/:businessId/board/:boardId/post`} exact component={ListPostComponent} />
-                        <Route path={`/business/:businessId/board/:boardId/post/:postId`} exact component={PostComponent} />
+                        <Route path={`/business/:businessId/board/:boardId/post/:postId/edit`} exact component={EditPostComponent} />
+                        <Route path={`/business/:businessId/board/:boardId/post/:postId`} exact component={ViewPostComponent} />
                     </Switch>
                 </>
             </Router>

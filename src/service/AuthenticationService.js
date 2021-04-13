@@ -22,10 +22,11 @@ class AuthenticationService {
         return axios.post(`${window.API_URL}/register_business`, user);
     }
 
-    loginSuccessful(token, refreshToken) {
-        Cookies.set(window.TOKEN_HEADER, token, { expires: 7 });
-        Cookies.set(window.REFRESH_TOKEN_HEADER, refreshToken, { expires: 7 })
-        setupAxiosHeader(createJWTToken(token));
+    loginSuccessful(userData) {
+        Cookies.set(window.TOKEN_HEADER, userData.jwt, { expires: 7 });
+        Cookies.set(window.REFRESH_TOKEN_HEADER, userData.jwtRefresh, { expires: 7 })
+        Cookies.set(window.USER_ID, userData.userId, { expires: 7 })
+        setupAxiosHeader(createJWTToken(userData.jwt));
     }
 
     sendPhoneVerify(to) {
@@ -52,5 +53,6 @@ export const setupAxiosHeader = (token) => {
 export const logout = () => {
     Cookies.remove(window.TOKEN_HEADER);
     Cookies.remove(window.REFRESH_TOKEN_HEADER);
+    Cookies.remove(window.USER_ID);
     axios.defaults.headers.common['authorization'] = undefined;
 };
