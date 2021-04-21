@@ -25,7 +25,8 @@ class ViewPostComponent extends Component {
             dislikes: 0,
             myvote: undefined,
             userId: Cookies.get(window.USER_ID),
-            commentId: undefined
+            commentId: undefined,
+            parentId: undefined
         };
         this.getAllVotes = this.getAllVotes.bind(this);
         this.onVoteChange = this.onVoteChange.bind(this);
@@ -34,6 +35,7 @@ class ViewPostComponent extends Component {
         this.getAllComment = this.getAllComment.bind(this);
         this.onCommentSubmit = this.onCommentSubmit.bind(this);
         this.onChangeComment = this.onChangeComment.bind(this);
+        this.onReplyComment = this.onReplyComment.bind(this);
     }
 
     componentDidMount() {
@@ -86,19 +88,20 @@ class ViewPostComponent extends Component {
 
     onCommentSubmit(values) {
         let comment = {
-            value: values.message
+            value: values.message,
+            parentId: this.state.parentId
         };
 
-        if (this.state.commentId === "new") {
+        if (this.state.commentId === "new" || this.state.parentId !== undefined) {
             CommentDataService.createComment(this.state.postId, comment)
                 .then(() => {
-                    this.setState({ commentId: undefined });
+                    this.setState({ commentId: undefined, parentId: undefined });
                     this.getAllComment();
                 });
         } else {
             CommentDataService.updateComment(this.state.commentId, comment)
                 .then(() => {
-                    this.setState({ commentId: undefined });
+                    this.setState({ commentId: undefined, parentId: undefined });
                     this.getAllComment();
                 });
         }
@@ -112,14 +115,18 @@ class ViewPostComponent extends Component {
     }
 
     onChangeComment(commentId) {
-        this.setState({ commentId: commentId });
+        this.setState({ commentId: commentId, parentId: undefined });
+    }
+
+    onReplyComment(parentId) {
+        this.setState({ parentId: parentId, commentId: undefined });
     }
 
     render() {
         let { 
             title, details, myvote, likes, 
-            dislikes, comments, message, 
-            userId, commentId
+            dislikes, comments, userId,
+            commentId, parentId
         } = this.state;
 
         return (
@@ -141,11 +148,11 @@ class ViewPostComponent extends Component {
                         {comments.map((e, i) => 
                             <div key={i}>
                                 <h4>Author: {e.author.name}</h4>
-                                <h5>Message: {e.value}</h5>
+                                <h5>Message: {e.parent && "@" + e.parent.author.name} {e.value}</h5>
                                 {e.isOwner &&
                                     <>
                                     {commentId === e.id ?
-                                        <CommentCreateComponent message={message} onCommentSubmit={this.onCommentSubmit} /> :
+                                        <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> :
                                         <>
                                             <button className="btn btn-primary" onClick={() => this.onChangeComment(e.id)}>Edit</button>
                                             <button className="btn btn-danger" onClick={() => this.onCommentDelete(e.id)}>Delete</button>
@@ -154,10 +161,14 @@ class ViewPostComponent extends Component {
                                     </>
                                 }
                                 <CommentComponent commentId={e.id} />
+                                {parentId === e.id ?
+                                    <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> :
+                                    <button className="btn btn-primary" onClick={() => this.onReplyComment(e.id)}>Reply</button>
+                                }
                             </div>
                         )}
                         {commentId === "new" ?
-                            <CommentCreateComponent message={message} onCommentSubmit={this.onCommentSubmit} /> :
+                            <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> :
                             <button className="btn btn-primary" onClick={() => this.onChangeComment("new")}>Create</button>
                         }
                     </div> 
