@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import Cookies from 'js-cookie';
 import BoardDataService from '../../service/BoardDataService';
+import BusinessDataService from '../../service/BusinessDataService';
 
 class BoardListComponent extends Component {
 
@@ -7,8 +9,10 @@ class BoardListComponent extends Component {
         super(props);
         this.state = {
             businessId: this.props.match.params.businessId,
+            userId: Cookies.get(window.USER_ID),
             boards: [],
-            message: null
+            message: null,
+            isBusinessOwner: false
         };
         this.refreshBoards = this.refreshBoards.bind(this);
         this.updateBoardClicked = this.updateBoardClicked.bind(this);
@@ -19,6 +23,7 @@ class BoardListComponent extends Component {
     }
 
     componentDidMount() {
+        this.checkBusinessOwner();
         this.refreshBoards();
     }
 
@@ -28,6 +33,15 @@ class BoardListComponent extends Component {
                 response => {
                     console.log(response);
                     this.setState({ boards: response.data });
+                }
+            )
+    }
+
+    checkBusinessOwner() {
+        BusinessDataService.retrieveBusiness(this.state.businessId)
+            .then(
+                response => {
+                    this.setState({ isBusinessOwner: response.data.author.id == this.state.userId });
                 }
             )
     }
@@ -43,11 +57,11 @@ class BoardListComponent extends Component {
 
     updateBoardClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.state.businessId}/board/${id}`);
+        this.props.history.push(`/business/${this.state.businessId}/board/${id}/edit`);
     }
 
     addBoardClicked() {
-        this.props.history.push(`/business/${this.state.businessId}/board/new`);
+        this.props.history.push(`/business/${this.state.businessId}/board/new/edit`);
     }
 
     getBoardClicked(id) {
@@ -76,19 +90,25 @@ class BoardListComponent extends Component {
                         <tbody>
                             {
                                 this.state.boards.map(
-                                    post =>
-                                        <tr key={post.id}>
-                                            <td>{post.name}</td>
-                                            <td><button className="btn btn-success" onClick={() => this.getBoardClicked(post.id)}>Open</button></td>
-                                            <td><button className="btn btn-success" onClick={() => this.updateBoardClicked(post.id)}>Update</button></td>
-                                            <td><button className="btn btn-warning" onClick={() => this.deleteBoardClicked(post.id)}>Delete</button></td>
+                                    board =>
+                                        <tr key={board.id}>
+                                            <td>{board.name}</td>
+                                            <td><button className="btn btn-success" onClick={() => this.getBoardClicked(board.id)}>Open</button></td>
+                                            {this.state.isBusinessOwner &&
+                                                <>
+                                                    <td><button className="btn btn-success" onClick={() => this.updateBoardClicked(board.id)}>Update</button></td>
+                                                    <td><button className="btn btn-warning" onClick={() => this.deleteBoardClicked(board.id)}>Delete</button></td>
+                                                </>
+                                            }
                                         </tr>
                                 )
                             }
                         </tbody>
                     </table>
                     <div className="row">
-                        <button className="btn btn-success" onClick={this.addBoardClicked}>Add</button>
+                        {this.state.isBusinessOwner && 
+                            <button className="btn btn-success" onClick={this.addBoardClicked}>Add</button>
+                        }
                         <button className="btn btn-success" onClick={this.goHome}>Home</button>
                     </div>
                 </div>

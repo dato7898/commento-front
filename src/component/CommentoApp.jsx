@@ -10,6 +10,7 @@ import ResetPasswordRoute from './route/ResetPasswordRoute';
 import ErrorPageComponent from './error/ErrorPageComponent';
 import BusinessRegisterComponent from './auth/BusinessRegisterComponent';
 import BoardListComponent from './board/BoardListComponent';
+import BoardEditComponent from './board/BoardEditComponent';
 import ListPostComponent from './post/ListPostComponent';
 import EditPostComponent from './post/EditPostComponent';
 import ViewPostComponent from './post/ViewPostComponent';
@@ -70,6 +71,7 @@ class CommentoApp extends Component {
                         <Route path="/error" exact component={ErrorPageComponent} />
                         <NotAuthenticatedRoute path="/register_business" exact component={BusinessRegisterComponent} />
                         <Route path={`/business/:businessId/board`} exact component={BoardListComponent} />
+                        <Route path={`/business/:businessId/board/:boardId/edit`} exact component={BoardEditComponent} />
                         <Route path={`/business/:businessId/board/:boardId/post`} exact component={ListPostComponent} />
                         <Route path={`/business/:businessId/board/:boardId/post/:postId/edit`} exact component={EditPostComponent} />
                         <Route path={`/business/:businessId/board/:boardId/post/:postId`} exact component={ViewPostComponent} />

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import PostDataService from '../../service/PostDataService';
-import VoteDataService from '../../service/VoteDataService';
 
 class EditPostComponent extends Component {
 
