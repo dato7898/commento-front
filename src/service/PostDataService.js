@@ -21,6 +21,10 @@ class PostDataService {
         return axios.put(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`, post);
     }
 
+    updatePostStatus(businessId, boardId, postId, statusId) {
+        return axios.put(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}/status?status=${statusId}`);
+    }
+
     createPost(businessId, boardId, post) {
         return axios.post(`${window.API_URL}/business/${businessId}/board/${boardId}/post`, post);
     }

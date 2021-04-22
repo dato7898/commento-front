@@ -18,6 +18,7 @@ class ViewPostComponent extends Component {
             boardId: this.props.match.params.boardId,
             postId: this.props.match.params.postId,
             title: '',
+            status: '',
             details: '',
             isPrivate: false,
             comments: [],
@@ -36,6 +37,7 @@ class ViewPostComponent extends Component {
         this.onCommentSubmit = this.onCommentSubmit.bind(this);
         this.onChangeComment = this.onChangeComment.bind(this);
         this.onReplyComment = this.onReplyComment.bind(this);
+        this.onStatusChange = this.onStatusChange.bind(this);
     }
 
     componentDidMount() {
@@ -51,6 +53,7 @@ class ViewPostComponent extends Component {
         PostDataService.retrievePost(this.state.businessId, this.state.boardId, this.state.postId)
             .then(response => this.setState({
                 details: response.data.details,
+                status: response.data.status.name,
                 title: response.data.title,
                 isPrivate: response.data.isPrivate
             }));
@@ -122,18 +125,29 @@ class ViewPostComponent extends Component {
         this.setState({ parentId: parentId, commentId: undefined });
     }
 
+    onStatusChange() {
+        PostDataService.updatePostStatus(this.state.businessId, this.state.boardId, this.state.postId, 2)
+            .then(response => this.setState({
+                details: response.data.details,
+                status: response.data.status.name,
+                title: response.data.title,
+                isPrivate: response.data.isPrivate
+            }));
+    }
+
     render() {
         let { 
             title, details, myvote, likes, 
             dislikes, comments, userId,
-            commentId, parentId
+            commentId, parentId, status
         } = this.state;
 
         return (
             <div className="class2">
                 <h3>Post</h3>
                 <div className="container">
-                   <h1>Title: {title}</h1>
+                   <h1>Title: {title} {status}</h1>
+                   <button className={"btn btn-primary"} onClick={() => this.onStatusChange()}>Change status</button>
                    <h2>Description: {details}</h2>
                     <div>
                         <button className={"btn" + (myvote === true ? " btn-primary" : "")} onClick={() => this.onVoteChange(true)}>Like</button>
