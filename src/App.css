@@ -37,4 +37,354 @@
   }
 }
 
-@import url(https://unpkg.com/bootstrap@4.1.0/dist/css/bootstrap.min.css);
+.head-link {
+  color: #FFFFFF;
+  margin: 0 8px;
+  white-space: nowrap;
+}
+
+.head-link:hover {
+  color: #D9D9D9;
+  text-decoration: none;
+}
+
+.auth-link {
+  color: #FFFFFF !important; 
+  font-family: Roboto,sans-serif;
+  font-size: 12px;
+  margin-left: 10px;
+  text-align: end;
+}
+
+.auth-link:hover {
+  color:#D9D9D9 !important;
+  text-decoration: underline;
+}
+
+.foot-link {
+  color: #FFFFFF !important; 
+  font-family: Roboto,sans-serif;
+  font-size: 12px;
+  margin-right: 20px;
+}
+
+.foot-link:hover {
+  color:#D9D9D9 !important;
+  text-decoration: underline;
+}
+
+.contacts {
+  font-family: Rubik,sans-serif;
+  font-weight: bold;
+  letter-spacing: .031em;
+}
+
+.foot-text {
+  font-family: Rubik,sans-serif;
+  letter-spacing: .031em;
+}
+
+.about {
+  font-size: 0.9rem;
+}
+
+.security a {
+  font-size: 14px;
+}
+
+.created {
+  font-size: 16px; 
+  font-family: Rubik,sans-serif;
+}
+
+.created span {
+  font-weight: bold;
+}
+
+.rights {
+  font-size: 12px;
+  font-family: Rubik,sans-serif;
+  letter-spacing: .142em;
+  font-weight: 500;
+}
+
+.main-back {
+  padding-top: 100px;
+  background: #D9D9D9;
+}
+
+.main-back hr {
+  border-width: 1px;
+  border-color: #000000;
+}
+
+.main-back h1 {
+  color: #434343;
+  font-family: Rubik,sans-serif;
+  font-size: 32px;
+}
+
+.prof-pic {
+  margin-left: 20px;
+}
+
+.head-descrip {
+  color: #434343;
+  font-family: Rubik,sans-serif;
+}
+
+.head-descrip p {
+  margin-bottom: 5px;
+}
+
+.head-descrip img {
+  height: 56px;
+  width: 32px;
+  padding-top: 20px;
+}
+
+.road-card {
+  padding: 0 20px;
+  padding-top: 30px;
+}
+
+.road-back {
+  padding: 6px;
+  background: #434343;
+}
+
+.road-card img {
+  width: 100%;
+  min-height: 32px; 
+  filter: grayscale(1);
+  padding-top: 5px;
+}
+
+.road-card-head {
+  color: #434343;
+  background: #D9D9D9;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px;
+  font-family: Rubik,sans-serif;
+  font-weight: bold;
+  padding: 6px 0;
+}
+
+.road-foot {
+  padding-top: 55px;
+  padding-bottom: 100px;
+}
+
+.foot-head {
+  font-family: Rubik,sans-serif;
+  letter-spacing: .045em;
+  color: #434343;
+  font-size: 23px;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+.road-foot .foot-text {
+  color: #434343;
+  line-height: 1.75;
+  margin-block-end: 0;
+  margin-block-start: 0;
+}
+
+.road-foot ul {
+  padding-left: 0;
+}
+
+.road-foot li {
+  list-style: none;
+}
+
+.count-list span {
+  font-weight: bold;
+}
+
+.slider-card {
+  width: 100%;
+  display: inline-block;
+  background: #1890ff;
+}
+
+@media (max-width: 767.98px) {
+  footer p {
+    text-align: center!important;
+  }
+
+  .security {
+    display: flex;
+    justify-content: center;
+  }
+
+  .security a {
+    margin: 0 10px
+  }
+}
+
+.alice-carousel__prev-btn {
+  text-align: left;
+  position: absolute;
+  top: 225px;
+  left: -30px;
+  font-size: 3rem;
+  color: #434343 !important;
+}
+
+.alice-carousel__next-btn {
+  text-align: right;
+  position: absolute;
+  top: 225px;
+  right: -30px;
+  font-size: 3rem;
+}
+
+.alice-carousel__next-btn-item,
+.alice-carousel__prev-btn-item {
+  color: #434343;
+}
+
+.carousel-card {
+  background: #434343;
+  margin: 0 15px;
+  height: 100%;
+}
+
+.carousel-card p {
+  color: #FFFFFF;
+  margin-top: 40px;
+  font-size: 16px;
+  line-height: 1.75;
+  font-family: Rubik,sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  letter-spacing: .031em;
+}
+
+.carousel-card-back {
+  padding: 75px 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.carousel-card-ref {
+  margin-top: 20px;
+  text-align: center;
+  justify-content: center;
+  vertical-align: middle;
+  padding: 12px 24px;
+  font-size: 14px;
+  line-height: 1.66;
+  font-weight: 500;
+  cursor: pointer;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  border-width: 2px;
+  border-radius: 8px;
+  border-color: #555;
+  border-style: solid;
+}
+
+.carousel-card-percent {
+  padding: 10px;
+  border-radius: 50%;
+  color: #434343;
+  border: 0;
+  vertical-align: baseline;
+  text-align: center;
+  height: 100px;
+  width: 100px;
+  background: #D9D9D9;
+  font-size: 32px;
+  line-height: 80px;
+}
+
+.alice-carousel__stage-item {
+  height: 500px;
+}
+
+.flex-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.alice-carousel__dots-item:not(.__custom):hover, .alice-carousel__dots-item:not(.__custom).__active {
+  background-color: #434343;
+}
+
+.alice-carousel {
+  margin-top: 45px;
+}
+
+.feed-foot {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background: #FFFFFF;
+}
+
+.feed-foot h2 {
+  background: linear-gradient(0deg, #ffffff 0%, #e9e9e9 100%);
+  text-align: center;
+  letter-spacing: .042em;
+  color: #434343;
+  font-family: Playfair Display,serif;
+  font-size: 48px;
+  font-weight: 700;
+  padding-top: 40px;
+  padding-right: 30px;
+  padding-bottom: 40px;
+  padding-left: 30px;
+}
+
+.feed-foot .card {
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+.feed-foot .card-header {
+  padding: 10px 0;
+  font-family: Rubik,sans-serif;
+  letter-spacing: .045em;
+  color: #434343;
+  font-size: 23px;
+  font-weight: 500;
+  background: #FFFFFF;
+  border-top: 0;
+  border-bottom: 0;
+  border-right: 0;
+  border-left: 0;
+}
+
+.feed-foot .card-body {
+  padding: 0;
+}
+
+.feed-foot ul {
+  padding: 0;
+}
+
+.feed-foot li {
+  list-style: none;
+  color: #434343;
+}
+
+.feed-foot .card-body span {
+  font-weight: bold;
+}
+
+.feed-foot .card-body p {
+  margin-bottom: 0;
+  color: #434343;
+}
+
+.list-content {
+  transition: height .3s ease,margin-top .3s ease;
+}
+
+@import "react-alice-carousel/lib/alice-carousel.css";
+/*@import url(https://unpkg.com/bootstrap@4.1.0/dist/css/bootstrap.min.css);*/

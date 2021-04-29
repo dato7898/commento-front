@@ -4,6 +4,9 @@ import LoginComponent from './auth/LoginComponent';
 import NotAuthenticatedRoute from './route/NotAuthenticatedRoute';
 import RegisterComponent from './auth/RegisterComponent';
 import MenuComponent from './MenuComponent';
+import FooterComponent from './FooterComponent';
+import RoadmapComponent from './RoadmapComponent';
+import FeedbackComponent from './FeedbackComponent';
 import ForgotPasswordComponent from './auth/ForgotPasswordComponent';
 import ResetPasswordComponent from './auth/ResetPasswordComponent';
 import ResetPasswordRoute from './route/ResetPasswordRoute';
@@ -75,7 +78,10 @@ class CommentoApp extends Component {
                         <Route path={`/business/:businessId/board/:boardId/post`} exact component={ListPostComponent} />
                         <Route path={`/business/:businessId/board/:boardId/post/:postId/edit`} exact component={EditPostComponent} />
                         <Route path={`/business/:businessId/board/:boardId/post/:postId`} exact component={ViewPostComponent} />
+                        <Route path={`/roadmap`} exact component={RoadmapComponent} />
+                        <Route path={`/feedback`} exact component={FeedbackComponent} />
                     </Switch>
+                    <FooterComponent />
                 </>
             </Router>
         );
