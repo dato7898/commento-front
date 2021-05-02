@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import AliceCarousel from 'react-alice-carousel';
-import { Accordion, Card, Button } from 'react-bootstrap';
+import { Accordion, Card } from 'react-bootstrap';
 
 class FeedbackComponent extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selected: undefined
+        }
+
+        this.handleSelect = this.handleSelect.bind(this);
+    }
+
+    handleSelect(i, e) {
+        if (e === this.state.selected) {
+            this.setState({ selected: undefined });
+        }
+        this.setState({ selected: i });
+    }
 
     render() {
 
@@ -15,7 +32,7 @@ class FeedbackComponent extends Component {
 
         return (
             <>
-                <div className="main-back">
+                <div className="main-back feed-back">
                     <div className="container">
                         <h1 className="text-center">Оставьте Обратную Связь</h1>
                         <hr />
@@ -83,11 +100,12 @@ class FeedbackComponent extends Component {
                 </div>
                 <div className="feed-foot container">
                     <h2>Вопрос - ответ</h2>
-                    <Accordion style={{ marginTop: "30px" }}>
+                    <Accordion style={{ marginTop: "30px" }} onSelect={this.handleSelect}>
                         <Card>
                             <Card.Header>
-                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0">
-                                    Что такое Пост ?
+                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="0" className="my-card-header">
+                                    <div>Что такое Пост ?</div>
+                                    <div>{this.state.selected === "0" ? "-" : "+"}</div>
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="0">
@@ -105,8 +123,9 @@ class FeedbackComponent extends Component {
                         </Card>
                         <Card>
                             <Card.Header>
-                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1">
-                                    Что такое Голос за пост ?
+                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="1" className="my-card-header">
+                                    <div>Что такое Голос за пост ?</div>
+                                    <div>{this.state.selected === "1" ? "-" : "+"}</div>
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="1">
@@ -124,8 +143,9 @@ class FeedbackComponent extends Component {
                         </Card>
                         <Card>
                             <Card.Header>
-                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="2">
-                                    Что такое Комментарий к посту ?
+                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="2" className="my-card-header">
+                                    <div>Что такое Комментарий к посту ?</div>
+                                    <div>{this.state.selected === "2" ? "-" : "+"}</div>
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="2">
@@ -140,8 +160,9 @@ class FeedbackComponent extends Component {
                         </Card>
                         <Card>
                             <Card.Header>
-                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="3">
-                                    Что такое Лайк к комментарию ?
+                                <Accordion.Toggle as={Card.Header} variant="link" eventKey="3" className="my-card-header">
+                                    <div>Что такое Лайк к комментарию ?</div>
+                                    <div>{this.state.selected === "3" ? "-" : "+"}</div>
                                 </Accordion.Toggle>
                             </Card.Header>
                             <Accordion.Collapse eventKey="3">
