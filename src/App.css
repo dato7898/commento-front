@@ -269,6 +269,7 @@
   left: -30px;
   font-size: 3rem;
   color: #434343 !important;
+  width: auto;
 }
 
 .alice-carousel__next-btn {
@@ -277,6 +278,7 @@
   top: 200px;
   right: -30px;
   font-size: 3rem;
+  width: auto;
 }
 
 .alice-carousel__next-btn-item,
@@ -458,7 +460,8 @@
   padding-top: 16px;
 }
 
-.post-form textarea {
+/*.post-form textarea {*/
+.form-field {
   width: 100%;
   margin-top: 16px;
   outline: none;
@@ -470,7 +473,8 @@
   resize: none;
 }
 
-.post-form button {
+/*.post-form button {*/
+.form-btn {
   margin-top: 20px;
   text-align: center;
   justify-content: center;
@@ -547,6 +551,7 @@
   color: #434343;
   font-size: 18px;
   font-family: Rubik,sans-serif;
+  cursor: pointer;
 }
 
 .board-title {
@@ -555,6 +560,7 @@
   font-weight: bold;
   line-height: 24px;
   font-family: Rubik,sans-serif;
+  text-transform: uppercase;
 }
 
 .votes-col {

@@ -82,8 +82,8 @@ class CommentoApp extends Component {
                         <Route path={`/business/:businessId/board/:boardId/post/:postId`} exact component={ViewPostComponent} />
                         <Route path={`/roadmap`} exact component={RoadmapComponent} />
                         <Route path={`/feedback`} exact component={FeedbackComponent} />
-                        <Route path={`/board`} exact component={CommentoBoardComponent} />
-                        <Route path={`/post`} exact component={CommentoPostComponent} />
+                        <Route path={`/board/:boardId`} exact component={CommentoBoardComponent} />
+                        <Route path={`/post/:postId`} exact component={CommentoPostComponent} />
                     </Switch>
                     <FooterComponent />
                 </>

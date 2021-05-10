@@ -27,7 +27,6 @@ class ListPostComponent extends Component {
         PostDataService.retrieveAllPosts(this.state.businessId, this.state.boardId)
             .then(
                 response => {
-                    console.log(response);
                     this.setState({ posts: response.data });
                 }
             )

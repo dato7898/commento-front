@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Accordion, Card } from 'react-bootstrap';
+import PostDataService from '../service/PostDataService';
+import VoteDataService from '../service/VoteDataService';
+import BoardDataService from '../service/BoardDataService';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 class CommentoBoardComponent extends Component {
 
@@ -8,10 +12,72 @@ class CommentoBoardComponent extends Component {
         super(props);
 
         this.state = {
-            selected: undefined
+            selected: undefined,
+            businessId: "commento",
+            boardId: this.props.match.params.boardId,
+            posts: [],
+            title: '',
+            details: ''
         }
 
         this.handleSelect = this.handleSelect.bind(this);
+        this.refreshPosts = this.refreshPosts.bind(this);
+        this.getAllVotes = this.getAllVotes.bind(this);
+        this.onVoteChange = this.onVoteChange.bind(this);
+        this.getMyVote = this.getMyVote.bind(this);
+        this.getBoard = this.getBoard.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.validate = this.validate.bind(this);
+        this.onTitleChange = this.onTitleChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.refreshPosts();
+        this.getBoard();
+    }
+
+    getBoard() {
+        BoardDataService.retrieveBoard("commento", this.state.boardId)
+            .then(res => this.setState({
+                boardName: res.data.name
+            }));
+    }
+
+    refreshPosts() {
+        PostDataService.retrieveAllPosts("commento", this.state.boardId)
+            .then(res => {
+                this.setState({ posts: res.data });
+                res.data.map((post, i) => {
+                    this.getAllVotes(post, i);
+                    this.getMyVote(post, i);
+                });
+            });
+    }
+
+    getAllVotes(post, i) {
+        VoteDataService.getAllVotes(post.id)
+            .then(res => {
+                post.likes = res.data.true - res.data.false;
+                this.state.posts[i] = post;
+                this.setState({ posts: this.state.posts });
+            });
+    }
+
+    getMyVote(post, i) {
+        VoteDataService.getMyVote(post.id)
+            .then(res => {
+                post.myvote = res.data.up;
+                this.state.posts[i] = post;
+                this.setState({ posts: this.state.posts });
+            });
+    }
+
+    onVoteChange(up, post, i) {
+        VoteDataService.changeVote(post.id, { "up": up })
+            .then(() => {
+                this.getAllVotes(post, i);
+                this.getMyVote(post, i);
+            });
     }
 
     handleSelect(i, e) {
@@ -19,6 +85,43 @@ class CommentoBoardComponent extends Component {
             this.setState({ selected: undefined });
         }
         this.setState({ selected: i });
+    }
+
+    onSubmit(values) {
+        let post = {
+            title: values.title,
+            details: values.details,
+            isPrivate: false
+        };
+
+        PostDataService.createPost(this.state.businessId, this.state.boardId, post)
+            .then(() => {});
+    }
+
+    validate(values) {
+        let errors = {};
+        if (!values.title) {
+            errors.title = 'Enter a Title';
+        } else if (values.title.length < 5) {
+            errors.title = 'Enter atleast 5 Characters in Title';
+        }
+    
+        return errors;
+    }
+
+    onTitleChange(e) {
+        const title = e.target.value;
+        PostDataService.postExist(this.state.businessId, this.state.boardId, title)
+            .then(response => {
+                response.data === true 
+                    ? this.setState({ titleError: 'post with title already exist' }) 
+                    : this.setState({ titleError: undefined });
+            })
+        
+        PostDataService.searchPosts(this.state.businessId, this.state.boardId, title)
+            .then(response => {
+                this.setState({ foundPosts: response.data });
+            })
     }
 
     render() {
@@ -29,93 +132,86 @@ class CommentoBoardComponent extends Component {
             991: { items: 3 },
         }
 
+        let { title, details } = this.state;
+
         return (
             <div className="main-back">
                 <div className="container">
-                    <h1 className="text-center">Имя (Доски) для предложений</h1>
+                    <h1 className="text-center">{this.state.boardName}</h1>
                     <hr />
                     <p className="text-center head-descrip">Оставь предложение, голосуй, комментируй и ставь лайки</p>
                     <div className="row">
                         <div className="col-md-8 col-sm-12">
                             <div className="board-list">
-                                <div className="post-card">
-                                    <div className="post-votes">
-                                        <div className="vote-box">
-                                            <img src="/icons/upvote.svg" height="14" />
-                                            <span>85</span>
-                                            <img src="/icons/downvote.svg" height="14" />
+                                {this.state.posts.map((post, i) => 
+                                    <div key={post.id} className="post-card">
+                                        <div className="post-votes">
+                                            <div className="vote-box">
+                                                <img src={post.myvote === true ? "/icons/upvote-active.svg" : "/icons/upvote.svg"} height="14" onClick={() => this.onVoteChange(true, post, i)} />
+                                                <span>{post.likes}</span>
+                                                <img src={post.myvote === false ? "/icons/downvote-active.svg" : "/icons/downvote.svg"} height="14" onClick={() => this.onVoteChange(false, post, i)} />
+                                            </div>
+                                        </div>
+                                        <div className="post-content">
+                                            <div 
+                                                className="post-head" 
+                                                onClick={() => this.props.history.push(`/post/${post.id}`)}
+                                            >
+                                                {post.title}
+                                            </div>
+                                            <div className="board-title">{post.board.name}</div>
                                         </div>
                                     </div>
-                                    <div className="post-content">
-                                        <div className="post-head">Filter the roadmap by board/category/tag</div>
-                                        <div className="board-title">FEATURE REQUESTS</div>
-                                    </div>
-                                </div>
-                                <div className="post-card">
-                                    <div className="post-votes">
-                                        <div className="vote-box">
-                                            <img src="/icons/upvote.svg" height="14" />
-                                            <span>60</span>
-                                            <img src="/icons/downvote.svg" height="14" />
-                                        </div>
-                                    </div>
-                                    <div className="post-content">
-                                        <div className="post-head">Reporting/analytics</div>
-                                        <div className="board-title">FEATURE REQUESTS</div>
-                                    </div>
-                                </div>
-                                <div className="post-card">
-                                    <div className="post-votes">
-                                        <div className="vote-box">
-                                            <img src="/icons/upvote.svg" height="14" />
-                                            <span>49</span>
-                                            <img src="/icons/downvote.svg" height="14" />
-                                        </div>
-                                    </div>
-                                    <div className="post-content">
-                                        <div className="post-head">Chrome Extension</div>
-                                        <div className="board-title">INTEGRATIONS</div>
-                                    </div>
-                                </div>
-                                <div className="post-card">
-                                    <div className="post-votes">
-                                        <div className="vote-box">
-                                            <img src="/icons/upvote.svg" height="14" />
-                                            <span>87</span>
-                                            <img src="/icons/downvote.svg" height="14" />
-                                        </div>
-                                    </div>
-                                    <div className="post-content">
-                                        <div className="post-head">Azure DevOps</div>
-                                        <div className="board-title">INTEGRATIONS</div>
-                                    </div>
-                                </div>
-                                <div className="post-card">
-                                    <div className="post-votes">
-                                        <div className="vote-box">
-                                            <img src="/icons/upvote.svg" height="14" />
-                                            <span>85</span>
-                                            <img src="/icons/downvote.svg" height="14" />
-                                        </div>
-                                    </div>
-                                    <div className="post-content">
-                                        <div className="post-head">Unanswered posts reminders</div>
-                                        <div className="board-title">FEATURE REQUESTS</div>
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                         <div className="col-md-4 col-sm-12">
                             <div className="post-form">
                                 <h2>Создать пост</h2>
-                                <textarea 
+                                <Formik
+                                    initialValues={{ title, details }}
+                                    onSubmit={this.onSubmit}
+                                    validateOnChange={false}
+                                    validateOnBlur={false}
+                                    validate={this.validate}
+                                    // https://github.com/formium/formik/issues/811
+                                    enableReinitialize
+                                >
+                                    {
+                                        (props) => (
+                                            <Form>
+                                                <fieldset>
+                                                    <Field 
+                                                        className="form-field" 
+                                                        type="textarea" 
+                                                        name="title" 
+                                                        onKeyUp={this.onTitleChange}
+                                                        placeholder="Заголовок (краткое описательное название предложения)"
+                                                        as="textarea"
+                                                    />
+                                                </fieldset>
+                                                <fieldset>
+                                                    <Field 
+                                                        className="form-field" 
+                                                        type="textarea" 
+                                                        name="details"
+                                                        placeholder="Комментарий (любые детали)"
+                                                        as="textarea"
+                                                    />
+                                                </fieldset>
+                                                <button className="form-btn" type="submit">Создать пост</button>
+                                            </Form>
+                                        )
+                                    }
+                                </Formik>
+                                {/*<textarea 
                                     className="post-form-header"
                                     placeholder="Заголовок (краткое описательное название предложения)" 
                                 />
                                 <br />
                                 <textarea placeholder="Комментарий (любые детали)" />
                                 <br />
-                                <button>СОЗДАТЬ ПОСТ</button>
+                                <button>СОЗДАТЬ ПОСТ</button>*/}
                             </div>
                         </div>
                     </div>
