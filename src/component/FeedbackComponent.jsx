@@ -61,7 +61,7 @@ class FeedbackComponent extends Component {
                                             14%
                                         </div>
                                         <div className="flex-break" />
-                                        <div onClick={() => this.props.history.push('/board/2')} className="carousel-card-ref">
+                                        <div onClick={() => this.props.history.push('/board/3')} className="carousel-card-ref">
                                             Интеграции
                                         </div>
                                         <div className="flex-break" />
@@ -74,7 +74,7 @@ class FeedbackComponent extends Component {
                                             7%
                                         </div>
                                         <div className="flex-break" />
-                                        <div onClick={() => this.props.history.push('/board/3')} className="carousel-card-ref">
+                                        <div onClick={() => this.props.history.push('/board/4')} className="carousel-card-ref">
                                             Языки
                                         </div>
                                         <div className="flex-break" />
@@ -87,7 +87,7 @@ class FeedbackComponent extends Component {
                                             13%
                                         </div>
                                         <div className="flex-break" />
-                                        <div onClick={() => this.props.history.push('/board/4')} className="carousel-card-ref">
+                                        <div onClick={() => this.props.history.push('/board/5')} className="carousel-card-ref">
                                             Коммуникация
                                         </div>
                                         <div className="flex-break" />

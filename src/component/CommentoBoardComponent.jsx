@@ -95,7 +95,9 @@ class CommentoBoardComponent extends Component {
         };
 
         PostDataService.createPost(this.state.businessId, this.state.boardId, post)
-            .then(() => {});
+            .then(() => {
+                this.refreshPosts();
+            });
     }
 
     validate(values) {
@@ -155,7 +157,7 @@ class CommentoBoardComponent extends Component {
                                         <div className="post-content">
                                             <div 
                                                 className="post-head" 
-                                                onClick={() => this.props.history.push(`/post/${post.id}`)}
+                                                onClick={() => this.props.history.push(`/post/${post.id}`, { boardId: post.board.id })}
                                             >
                                                 {post.title}
                                             </div>

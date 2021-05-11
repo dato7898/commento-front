@@ -436,6 +436,7 @@
   margin-right: 120px;
   margin-left: 120px;
   padding: 20px;
+  overflow: auto;
 }
 
 @media (max-width: 991px) {
@@ -552,6 +553,7 @@
   font-size: 18px;
   font-family: Rubik,sans-serif;
   cursor: pointer;
+  word-break: break-word;
 }
 
 .board-title {
