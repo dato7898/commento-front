@@ -847,6 +847,7 @@
   padding: 8px 8px 8px 0;
   width: 28px;
   height: 36px;
+  cursor: pointer;
 }
 
 .dislike-icon {
@@ -854,6 +855,7 @@
   padding: 8px;
   width: 36px;
   height: 36px;
+  cursor: pointer;
 }
 
 .comment-vote-count {
@@ -881,6 +883,8 @@
   font-family: Rubik,sans-serif;
   font-size: 14px;
   font-weight: 500;
+  width: fit-content;
+  cursor: pointer;
 }
 
 @import "react-alice-carousel/lib/alice-carousel.css";

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import PostDataService from '../service/PostDataService';
 import VoteDataService from '../service/VoteDataService';
 import CommentDataService from '../service/CommentDataService';
+import CommentVoteDataService from '../service/CommentVoteDataService';
 
 class CommentoPostComponent extends Component {
 
@@ -24,6 +25,13 @@ class CommentoPostComponent extends Component {
 
         this.getPost = this.getPost.bind(this);
         this.getAllComment = this.getAllComment.bind(this);
+        this.getAllCommentVotes = this.getAllCommentVotes.bind(this);
+        this.getAllChildCommentVotes = this.getAllChildCommentVotes.bind(this);
+        this.getMyCommentVote = this.getMyCommentVote.bind(this);
+        this.getMyChildCommentVote = this.getMyChildCommentVote.bind(this);
+        this.onCommentVoteChange = this.onCommentVoteChange.bind(this);
+        this.onChildCommentVoteChange = this.onChildCommentVoteChange.bind(this);
+        this.switchShowChildren = this.switchShowChildren.bind(this);
 
     }
 
@@ -50,7 +58,8 @@ class CommentoPostComponent extends Component {
             .then(res => {
                 this.setState({ comments: res.data });
                 res.data.map((comment, i) => {
-                    this.getChildComments(comment, i);
+                    this.getAllCommentVotes(comment, i);
+                    this.getMyCommentVote(comment, i);
                 });
             });
     }
@@ -61,15 +70,10 @@ class CommentoPostComponent extends Component {
                 comment.children = res.data;
                 this.state.comments[i] = comment;
                 this.setState({ comments: this.state.comments });
-            });
-    }
-
-    getMyVote(post, i) {
-        VoteDataService.getMyVote(post.id)
-            .then(res => {
-                post.myvote = res.data.up;
-                this.state.posts[i] = post;
-                this.setState({ posts: this.state.posts });
+                comment.children.map((childComment, j) => {
+                    this.getAllChildCommentVotes(childComment, i, j);
+                    this.getMyChildCommentVote(childComment, i, j);
+                });
             });
     }
 
@@ -79,6 +83,64 @@ class CommentoPostComponent extends Component {
                 likes: res.data.true - res.data.false,
                 voters: res.data.true + res.data.false
             }));
+    }
+
+    getAllCommentVotes(comment, i) {
+        CommentVoteDataService.getAllVotes(comment.id)
+            .then(res => {
+                comment.likes = res.data.true - res.data.false;
+                this.state.comments[i] = comment;
+                this.setState({ comments: this.state.comments });
+            });
+    }
+
+    getAllChildCommentVotes(comment, i, j) {
+        CommentVoteDataService.getAllVotes(comment.id)
+            .then(res => {
+                comment.likes = res.data.true - res.data.false;
+                this.state.comments[i].children[j] = comment;
+                this.setState({ comments: this.state.comments });
+            });
+    }
+
+    getMyCommentVote(comment, i) {
+        CommentVoteDataService.getMyVote(comment.id)
+            .then(res => {
+                comment.myvote = res.data.up;
+                this.state.comments[i] = comment;
+                this.setState({ comments: this.state.comments });
+            });
+    }
+
+    getMyChildCommentVote(comment, i, j) {
+        CommentVoteDataService.getMyVote(comment.id)
+            .then(res => {
+                comment.myvote = res.data.up;
+                this.state.comments[i].children[j] = comment;
+                this.setState({ comments: this.state.comments });
+            });
+    }
+
+    onCommentVoteChange(up, comment, i) {
+        CommentVoteDataService.changeVote(comment.id, { "up": up })
+            .then(() => {
+                this.getAllCommentVotes(comment, i);
+                this.getMyCommentVote(comment, i);
+            });
+    }
+
+    onChildCommentVoteChange(up, comment, i, j) {
+        CommentVoteDataService.changeVote(comment.id, { "up": up })
+            .then(() => {
+                this.getAllChildCommentVotes(comment, i);
+                this.getMyChildCommentVote(comment, i);
+            });
+    }
+
+    switchShowChildren(comment, i) {
+        comment.showChildren = !comment.showChildren;
+        this.state.comments[i] = comment;
+        this.setState({ comments: this.state.comments });
     }
 
     render() {
@@ -177,13 +239,19 @@ class CommentoPostComponent extends Component {
                                                         </div>
                                                         <div className="comment-votes">
                                                             <div>
-                                                                <img src="/icons/like-hand.png" className="like-icon" />
+                                                                <img 
+                                                                    src={comment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} 
+                                                                    className="like-icon" onClick={() => this.onCommentVoteChange(true, comment, i)} 
+                                                                />
                                                             </div>
                                                             <span className="comment-vote-count">
-                                                                62
+                                                                {comment.likes}
                                                             </span>
                                                             <div>
-                                                                <img src="/icons/dislike-hand.png" className="dislike-icon" />
+                                                                <img 
+                                                                    src={comment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} 
+                                                                    className="dislike-icon" onClick={() => this.onCommentVoteChange(false, comment, i)} 
+                                                                />
                                                             </div>
                                                             <div className="reply-button">
                                                                 Ответить
@@ -191,12 +259,16 @@ class CommentoPostComponent extends Component {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {comment.children && comment.children.length &&
+                                                {comment.childrenCount &&
                                                     <div style={{ marginLeft: "56px" }}>
-                                                        <div className="hide-button">
-                                                            Скрыть 3 ответа
+                                                        <div className="hide-button" onClick={() => {
+                                                            if (comment.children === undefined)
+                                                                this.getChildComments(comment, i);
+                                                            this.switchShowChildren(comment, i);
+                                                        }}>
+                                                            {comment.showChildren ? "Скрыть" : "Показать"} {comment.childrenCount} ответа
                                                         </div>
-                                                        {comment.children.map((childComment, i) => 
+                                                        {comment.showChildren && comment.children && comment.children.map((childComment, j) => 
                                                             <div key={childComment.id} style={{ display: "flex" }}>
                                                                 <div className="no-comment-avatar" style={{ backgroundColor: "rgb(170, 187, 221)" }}>
                                                                     D
@@ -215,13 +287,19 @@ class CommentoPostComponent extends Component {
                                                                     </div>
                                                                     <div className="comment-votes">
                                                                         <div>
-                                                                            <img src="/icons/like-hand.png" className="like-icon" />
+                                                                            <img 
+                                                                                src={childComment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} 
+                                                                                className="like-icon" onClick={() => this.onChildCommentVoteChange(true, childComment, i, j)} 
+                                                                            />
                                                                         </div>
                                                                         <span className="comment-vote-count">
-                                                                            62
+                                                                            {childComment.likes}
                                                                         </span>
                                                                         <div>
-                                                                            <img src="/icons/dislike-hand.png" className="dislike-icon" />
+                                                                            <img 
+                                                                                src={childComment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} 
+                                                                                className="dislike-icon" onClick={() => this.onChildCommentVoteChange(false, childComment, i, j)} 
+                                                                            />
                                                                         </div>
                                                                         <div className="reply-button">
                                                                             Ответить
