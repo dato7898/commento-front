@@ -4,7 +4,7 @@ import { Accordion, Card } from 'react-bootstrap';
 import PostDataService from '../service/PostDataService';
 import VoteDataService from '../service/VoteDataService';
 import BoardDataService from '../service/BoardDataService';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 
 class CommentoBoardComponent extends Component {
 
@@ -128,12 +128,6 @@ class CommentoBoardComponent extends Component {
 
     render() {
 
-        const responsive = {
-            0: { items: 1 },
-            767: { items: 2 },
-            991: { items: 3 },
-        }
-
         let { title, details } = this.state;
 
         return (
@@ -149,9 +143,9 @@ class CommentoBoardComponent extends Component {
                                     <div key={post.id} className="post-card">
                                         <div className="post-votes">
                                             <div className="vote-box">
-                                                <img src={post.myvote === true ? "/icons/upvote-active.svg" : "/icons/upvote.svg"} height="14" onClick={() => this.onVoteChange(true, post, i)} />
+                                                <img src={post.myvote === true ? "/icons/upvote-active.svg" : "/icons/upvote.svg"} height="14" onClick={() => this.onVoteChange(true, post, i)} alt="" />
                                                 <span>{post.likes}</span>
-                                                <img src={post.myvote === false ? "/icons/downvote-active.svg" : "/icons/downvote.svg"} height="14" onClick={() => this.onVoteChange(false, post, i)} />
+                                                <img src={post.myvote === false ? "/icons/downvote-active.svg" : "/icons/downvote.svg"} height="14" onClick={() => this.onVoteChange(false, post, i)} alt="" />
                                             </div>
                                         </div>
                                         <div className="post-content">
@@ -206,14 +200,6 @@ class CommentoBoardComponent extends Component {
                                         )
                                     }
                                 </Formik>
-                                {/*<textarea 
-                                    className="post-form-header"
-                                    placeholder="Заголовок (краткое описательное название предложения)" 
-                                />
-                                <br />
-                                <textarea placeholder="Комментарий (любые детали)" />
-                                <br />
-                                <button>СОЗДАТЬ ПОСТ</button>*/}
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import PostDataService from '../service/PostDataService';
 import VoteDataService from '../service/VoteDataService';
 import CommentDataService from '../service/CommentDataService';
 import CommentVoteDataService from '../service/CommentVoteDataService';
+import CommentCreateComponent from '../component/comment/CommentCreateComponent';
 
 class CommentoPostComponent extends Component {
 
@@ -32,6 +33,7 @@ class CommentoPostComponent extends Component {
         this.onCommentVoteChange = this.onCommentVoteChange.bind(this);
         this.onChildCommentVoteChange = this.onChildCommentVoteChange.bind(this);
         this.switchShowChildren = this.switchShowChildren.bind(this);
+        this.onCommentSubmit = this.onCommentSubmit.bind(this);
 
     }
 
@@ -143,12 +145,34 @@ class CommentoPostComponent extends Component {
         this.setState({ comments: this.state.comments });
     }
 
+    onCommentType(e) {
+        e.target.style.height = "5px";
+        e.target.style.height = (e.target.scrollHeight)+"px";
+    }
+
+    onCommentSubmit(values) {
+        let comment = {
+            value: values.message,
+            parentId: this.state.parentId,
+            rootId: this.state.rootId
+        };
+
+        CommentDataService.createComment(this.state.postId, comment)
+            .then(() => {
+                this.getAllComment();
+            });
+    }
+
+    onReplyComment(parentId, rootId) {
+        this.setState({ parentId: parentId, rootId: rootId });
+    }
+
     render() {
 
         let { 
             title, details, status, 
             authorName, likes, voters,
-            comments
+            comments, rootId
         } = this.state;
 
         return (
@@ -166,11 +190,11 @@ class CommentoPostComponent extends Component {
                                     </p>
                                     <div className="vote-avatars">
                                         {voters > 5 ? <div className="more-votes"> + {voters - 5}</div> : ''}
-                                        <img src="/img/user-icon-1.jpg" className="vote-avatar" />
+                                        <img src="/img/user-icon-1.jpg" className="vote-avatar" alt="" />
                                         <div className="no-avatar" style={{ backgroundColor: "rgb(170, 187, 221)" }}>T</div>
                                         <div className="no-avatar" style={{ backgroundColor: "rgb(126, 76, 26)" }}>D</div>
                                         <div className="no-avatar" style={{ backgroundColor: "rgb(217, 92, 20)" }}>S</div>
-                                        <img src="/img/user-icon-5.jpg" className="vote-avatar" />
+                                        <img src="/img/user-icon-5.jpg" className="vote-avatar" alt="" />
                                     </div>
                                 </div>
                             </div>
@@ -181,9 +205,9 @@ class CommentoPostComponent extends Component {
                                     <div className="post-header">
                                         <div className="post-votes">
                                             <div className="vote-box status-vote">
-                                                <img src="/icons/upvote.svg" height="14" />
+                                                <img src="/icons/upvote.svg" height="14" alt="" />
                                                 <span>{likes}</span>
-                                                <img src="/icons/downvote.svg" height="14" />
+                                                <img src="/icons/downvote.svg" height="14" alt="" />
                                             </div>
                                         </div>
                                         <div className="status-title">
@@ -198,7 +222,7 @@ class CommentoPostComponent extends Component {
                                     <div>
                                         <div className="post-author">
                                             <div className="user-avatar">
-                                                <img src="/img/user-avatar.jpg" className="vote-avatar" />
+                                                <img src="/img/user-avatar.jpg" className="vote-avatar" alt="" />
                                             </div>
                                             <div className="user-info">
                                                 {authorName}
@@ -214,7 +238,7 @@ class CommentoPostComponent extends Component {
                                         </div>
                                     </div>
                                     <div className="comment-composer">
-                                        <textarea className="" placeholder="Leave a comment" rows="1" autoComplete="off" />
+                                        <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} />
                                     </div>
                                 </div>
                                 <div className="white-back" style={{ marginTop: "20px" }}>
@@ -223,7 +247,7 @@ class CommentoPostComponent extends Component {
                                             <div key={comment.id}>
                                                 <div key={comment.id} style={{ display: "flex" }}>
                                                     <div>
-                                                        <img src="/img/user-avatar.jpg" className="comment-avatar" />
+                                                        <img src="/img/user-avatar.jpg" className="comment-avatar" alt="" />
                                                     </div>
                                                     <div className="comment-renderer">
                                                         <div className="comment-author">
@@ -241,7 +265,7 @@ class CommentoPostComponent extends Component {
                                                             <div>
                                                                 <img 
                                                                     src={comment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} 
-                                                                    className="like-icon" onClick={() => this.onCommentVoteChange(true, comment, i)} 
+                                                                    className="like-icon" onClick={() => this.onCommentVoteChange(true, comment, i)} alt=""
                                                                 />
                                                             </div>
                                                             <span className="comment-vote-count">
@@ -250,16 +274,16 @@ class CommentoPostComponent extends Component {
                                                             <div>
                                                                 <img 
                                                                     src={comment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} 
-                                                                    className="dislike-icon" onClick={() => this.onCommentVoteChange(false, comment, i)} 
+                                                                    className="dislike-icon" onClick={() => this.onCommentVoteChange(false, comment, i)} alt=""
                                                                 />
                                                             </div>
-                                                            <div className="reply-button">
+                                                            <div className="reply-button" onClick={() => this.onReplyComment(comment.id, comment.id)} >
                                                                 Ответить
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {comment.childrenCount &&
+                                                {comment.childrenCount ?
                                                     <div style={{ marginLeft: "56px" }}>
                                                         <div className="hide-button" onClick={() => {
                                                             if (comment.children === undefined)
@@ -288,7 +312,7 @@ class CommentoPostComponent extends Component {
                                                                     <div className="comment-votes">
                                                                         <div>
                                                                             <img 
-                                                                                src={childComment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} 
+                                                                                src={childComment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} alt=""
                                                                                 className="like-icon" onClick={() => this.onChildCommentVoteChange(true, childComment, i, j)} 
                                                                             />
                                                                         </div>
@@ -297,11 +321,11 @@ class CommentoPostComponent extends Component {
                                                                         </span>
                                                                         <div>
                                                                             <img 
-                                                                                src={childComment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} 
+                                                                                src={childComment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} alt=""
                                                                                 className="dislike-icon" onClick={() => this.onChildCommentVoteChange(false, childComment, i, j)} 
                                                                             />
                                                                         </div>
-                                                                        <div className="reply-button">
+                                                                        <div className="reply-button" onClick={() => this.onReplyComment(childComment.id, comment.id)} >
                                                                             Ответить
                                                                         </div>
                                                                     </div>
@@ -309,6 +333,11 @@ class CommentoPostComponent extends Component {
                                                             </div>
                                                         )}
                                                     </div>
+                                                    : ""
+                                                }
+                                                {rootId === comment.id ?
+                                                    <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> 
+                                                    : ""
                                                 }
                                             </div>
                                         )}

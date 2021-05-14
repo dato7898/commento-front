@@ -9,6 +9,13 @@ class CommentCreateComponent extends Component {
         this.state = {
             message: ""
         };
+
+        this.onCommentType = this.onCommentType.bind(this);
+    }
+
+    onCommentType(e) {
+        e.target.style.height = "5px";
+        e.target.style.height = (e.target.scrollHeight)+"px";
     }
 
     render() {
@@ -24,8 +31,14 @@ class CommentCreateComponent extends Component {
                     (props) => (
                         <Form>
                             <fieldset className="form-group">
-                                <label>Message</label>
-                                <Field className="form-control" type="text" name="message" />
+                                <Field 
+                                    className="comment-textarea" 
+                                    type="textarea" 
+                                    name="message" 
+                                    placeholder="Leave a comment" 
+                                    onKeyUp={this.onCommentType}
+                                    rows="1"
+                                    as="textarea" />
                             </fieldset>
                             <button className="btn btn-success" type="submit">Send</button>
                         </Form>
