@@ -17,6 +17,7 @@ class CommentoPostComponent extends Component {
             postId: this.props.match.params.postId,
             title: '',
             details: '',
+            date: '',
             status: '',
             authorName: '',
             likes: 0,
@@ -34,6 +35,10 @@ class CommentoPostComponent extends Component {
         this.onChildCommentVoteChange = this.onChildCommentVoteChange.bind(this);
         this.switchShowChildren = this.switchShowChildren.bind(this);
         this.onCommentSubmit = this.onCommentSubmit.bind(this);
+        this.onChangeComment = this.onChangeComment.bind(this);
+        this.onReplyPostAndSubmit = this.onReplyPostAndSubmit.bind(this);
+        this.onReplyComment = this.onReplyComment.bind(this);
+        this.onCommentDelete = this.onCommentDelete.bind(this);
 
     }
 
@@ -49,6 +54,7 @@ class CommentoPostComponent extends Component {
                 this.setState({
                     title: res.data.title,
                     details: res.data.details,
+                    date: new Date(res.data.created).toLocaleDateString(),
                     status: res.data.status.name,
                     authorName: res.data.author.name
                 });
@@ -145,16 +151,30 @@ class CommentoPostComponent extends Component {
         this.setState({ comments: this.state.comments });
     }
 
-    onCommentType(e) {
-        e.target.style.height = "5px";
-        e.target.style.height = (e.target.scrollHeight)+"px";
-    }
-
     onCommentSubmit(values) {
         let comment = {
             value: values.message,
             parentId: this.state.parentId,
             rootId: this.state.rootId
+        };
+
+        if (!this.state.commentId) {
+            CommentDataService.createComment(this.state.postId, comment)
+                .then(() => {
+                    this.getAllComment();
+                });
+        } else {
+            CommentDataService.updateComment(this.state.commentId, comment)
+                .then(() => {
+                    this.setState({ commentId: undefined, parentId: undefined, rootId: undefined });
+                    this.getAllComment();
+                });
+        }
+    }
+
+    onReplyPostAndSubmit(values) {
+        let comment = {
+            value: values.message,
         };
 
         CommentDataService.createComment(this.state.postId, comment)
@@ -164,7 +184,18 @@ class CommentoPostComponent extends Component {
     }
 
     onReplyComment(parentId, rootId) {
-        this.setState({ parentId: parentId, rootId: rootId });
+        this.setState({ parentId: parentId, rootId: rootId, commentId: undefined });
+    }
+
+    onChangeComment(commentId) {
+        this.setState({ commentId: commentId, parentId: undefined, rootId: undefined });
+    }
+
+    onCommentDelete(commentId) {
+        CommentDataService.deleteComment(commentId)
+            .then(() => {
+                this.getAllComment();
+            });
     }
 
     render() {
@@ -172,7 +203,8 @@ class CommentoPostComponent extends Component {
         let { 
             title, details, status, 
             authorName, likes, voters,
-            comments, rootId
+            comments, parentId, date,
+            commentId
         } = this.state;
 
         return (
@@ -234,11 +266,11 @@ class CommentoPostComponent extends Component {
                                             </div>
                                         </div>
                                         <div className="post-timestamp-link">
-                                            May 21, 2018
+                                            {date}
                                         </div>
                                     </div>
                                     <div className="comment-composer">
-                                        <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} />
+                                        <CommentCreateComponent onCommentSubmit={this.onReplyPostAndSubmit} />
                                     </div>
                                 </div>
                                 <div className="white-back" style={{ marginTop: "20px" }}>
@@ -249,6 +281,11 @@ class CommentoPostComponent extends Component {
                                                     <div>
                                                         <img src="/img/user-avatar.jpg" className="comment-avatar" alt="" />
                                                     </div>
+
+                                                    {commentId === comment.id &&
+                                                        <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} />
+                                                    }
+
                                                     <div className="comment-renderer">
                                                         <div className="comment-author">
                                                             <div className="comment-author-name">
@@ -282,63 +319,77 @@ class CommentoPostComponent extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    {comment.isOwner &&
+                                                        <>
+                                                            <button className="btn btn-primary" onClick={() => this.onChangeComment(comment.id)}>Edit</button>
+                                                            <button className="btn btn-danger" onClick={() => this.onCommentDelete(comment.id)}>Delete</button>
+                                                        </>
+                                                    }
+
                                                 </div>
-                                                {comment.childrenCount ?
-                                                    <div style={{ marginLeft: "56px" }}>
-                                                        <div className="hide-button" onClick={() => {
-                                                            if (comment.children === undefined)
-                                                                this.getChildComments(comment, i);
-                                                            this.switchShowChildren(comment, i);
-                                                        }}>
-                                                            {comment.showChildren ? "Скрыть" : "Показать"} {comment.childrenCount} ответа
-                                                        </div>
-                                                        {comment.showChildren && comment.children && comment.children.map((childComment, j) => 
-                                                            <div key={childComment.id} style={{ display: "flex" }}>
-                                                                <div className="no-comment-avatar" style={{ backgroundColor: "rgb(170, 187, 221)" }}>
-                                                                    D
-                                                                </div>
-                                                                <div className="comment-renderer">
-                                                                    <div className="comment-author">
-                                                                        <div className="comment-author-name">
-                                                                            {childComment.author.name}
-                                                                        </div>
-                                                                        <div className="comment-date">
-                                                                            4 года назад
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="comment-content">
-                                                                        {childComment.value}
-                                                                    </div>
-                                                                    <div className="comment-votes">
-                                                                        <div>
-                                                                            <img 
-                                                                                src={childComment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} alt=""
-                                                                                className="like-icon" onClick={() => this.onChildCommentVoteChange(true, childComment, i, j)} 
-                                                                            />
-                                                                        </div>
-                                                                        <span className="comment-vote-count">
-                                                                            {childComment.likes}
-                                                                        </span>
-                                                                        <div>
-                                                                            <img 
-                                                                                src={childComment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} alt=""
-                                                                                className="dislike-icon" onClick={() => this.onChildCommentVoteChange(false, childComment, i, j)} 
-                                                                            />
-                                                                        </div>
-                                                                        <div className="reply-button" onClick={() => this.onReplyComment(childComment.id, comment.id)} >
-                                                                            Ответить
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                <div style={{ marginLeft: "56px" }}>
+                                                    {comment.childrenCount ?
+                                                        <div>
+                                                            <div className="hide-button" onClick={() => {
+                                                                if (comment.children === undefined)
+                                                                    this.getChildComments(comment, i);
+                                                                this.switchShowChildren(comment, i);
+                                                            }}>
+                                                                {comment.showChildren ? "Скрыть" : "Показать"} {comment.childrenCount} ответа
                                                             </div>
-                                                        )}
-                                                    </div>
-                                                    : ""
-                                                }
-                                                {rootId === comment.id ?
-                                                    <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> 
-                                                    : ""
-                                                }
+                                                            {comment.showChildren && comment.children && comment.children.map((childComment, j) => 
+                                                                <div key={childComment.id} style={{ display: "flex" }}>
+                                                                    <div className="no-comment-avatar" style={{ backgroundColor: "rgb(170, 187, 221)" }}>
+                                                                        D
+                                                                    </div>
+                                                                    <div className="comment-renderer">
+                                                                        <div className="comment-author">
+                                                                            <div className="comment-author-name">
+                                                                                {childComment.author.name}
+                                                                            </div>
+                                                                            <div className="comment-date">
+                                                                                4 года назад
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="comment-content">
+                                                                            {childComment.value}
+                                                                        </div>
+                                                                        <div className="comment-votes">
+                                                                            <div>
+                                                                                <img 
+                                                                                    src={childComment.myvote === true ? "/icons/like-hand-active.png" : "/icons/like-hand.png"} alt=""
+                                                                                    className="like-icon" onClick={() => this.onChildCommentVoteChange(true, childComment, i, j)} 
+                                                                                />
+                                                                            </div>
+                                                                            <span className="comment-vote-count">
+                                                                                {childComment.likes}
+                                                                            </span>
+                                                                            <div>
+                                                                                <img 
+                                                                                    src={childComment.myvote === false ? "/icons/dislike-hand-active.png" : "/icons/dislike-hand.png"} alt=""
+                                                                                    className="dislike-icon" onClick={() => this.onChildCommentVoteChange(false, childComment, i, j)} 
+                                                                                />
+                                                                            </div>
+                                                                            <div className="reply-button" onClick={() => this.onReplyComment(childComment.id, comment.id)} >
+                                                                                Ответить
+                                                                            </div>
+                                                                        </div>
+                                                                        {parentId === childComment.id ?
+                                                                            <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> 
+                                                                            : ""
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        : ""
+                                                    }
+                                                    {parentId === comment.id ?
+                                                        <CommentCreateComponent onCommentSubmit={this.onCommentSubmit} /> 
+                                                        : ""
+                                                    }
+                                                 </div>
                                             </div>
                                         )}
                                     </div>
