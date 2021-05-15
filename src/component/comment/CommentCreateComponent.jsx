@@ -7,7 +7,7 @@ class CommentCreateComponent extends Component {
         super(props);
 
         this.state = {
-            message: ""
+            message: props.message ? props.message : ""
         };
 
         this.onCommentType = this.onCommentType.bind(this);
@@ -29,8 +29,8 @@ class CommentCreateComponent extends Component {
             >
                 {
                     (props) => (
-                        <Form>
-                            <fieldset className="form-group">
+                        <Form className="comment-submit-wrapper">
+                            <fieldset>
                                 <Field 
                                     className="comment-textarea" 
                                     type="textarea" 
@@ -38,9 +38,10 @@ class CommentCreateComponent extends Component {
                                     placeholder="Leave a comment" 
                                     onKeyUp={this.onCommentType}
                                     rows="1"
-                                    as="textarea" />
+                                    as="textarea" 
+                                />
                             </fieldset>
-                            <button className="btn btn-success" type="submit">Send</button>
+                            <button className="reply-button submit-comment-action" type="submit">Отправить</button>
                         </Form>
                     )
                 }

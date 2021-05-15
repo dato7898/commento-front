@@ -872,12 +872,20 @@
 
 .reply-button {
   color: #555555;
-  padding: 8px 16px;
+  padding: 2px 2px;
   text-transform: uppercase;
   font-family: Rubik, sans-serif;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 400;
   cursor: pointer;
+  text-decoration: underline;
+  text-decoration: underline;
+  border: none;
+  background: none;
+}
+
+.reply-button:focus {
+  outline: none;
 }
 
 .hide-button {
@@ -888,6 +896,31 @@
   font-weight: 500;
   width: fit-content;
   cursor: pointer;
+}
+
+.comment-action-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 380.99px) {
+  .comment-action-wrapper {
+    flex-direction: column;
+  }
+}
+
+.submit-comment-action {
+  font-size: 14px;
+  align-self: flex-end;
+}
+
+.comment-submit-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-reply-wrapper {
+  margin: 0 30px 0 55px;
 }
 
 @import "react-alice-carousel/lib/alice-carousel.css";
