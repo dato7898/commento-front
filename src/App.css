@@ -890,5 +890,65 @@
   cursor: pointer;
 }
 
+.admin-panel-wrap {
+  margin-top: 180px;
+  margin-bottom: 100px;
+}
+
+.admin-menu {
+  min-height: 100px;
+  background-color: rgb(67, 67, 67);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px 40px 20px;
+  align-items: center;
+}
+
+.admin-menu span {
+  font-size: 18px;
+  line-height: 1.67;
+  font-family: Rubik, sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+  font-style: normal;
+  letter-spacing: 0.056em;
+  color: #fff;
+}
+
+.admin-dashboard {
+  min-height: 100px;
+  background-color: #e9e9e9;
+  height: 100%;
+}
+
+.admin-panel-section {
+  word-break: break-word;
+  flex-grow: 1;
+  flex-basis: auto;
+  width: calc(100% - 30px);
+  word-wrap: break-word;
+  margin-top: 25px;
+  font-size: 16px !important;
+}
+
+.admin-menu hr {
+  border-color: #fff;
+  width: 100%;
+}
+
+.admin-menu .card {
+  background-color: inherit;
+  border: none;
+}
+
+.admin-menu .card-header {
+  border: none;
+}
+
+.admin-menu .card-body {
+  display: flex;
+  flex-direction: column;
+}
+
 @import "react-alice-carousel/lib/alice-carousel.css";
 /*@import url(https://unpkg.com/bootstrap@4.1.0/dist/css/bootstrap.min.css);*/
