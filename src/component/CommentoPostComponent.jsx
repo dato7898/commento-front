@@ -5,6 +5,7 @@ import VoteDataService from '../service/VoteDataService';
 import CommentDataService from '../service/CommentDataService';
 import CommentVoteDataService from '../service/CommentVoteDataService';
 import CommentCreateComponent from '../component/comment/CommentCreateComponent';
+import { isUserLoggedIn } from '../service/AuthenticationService';
 
 class CommentoPostComponent extends Component {
 
@@ -121,21 +122,23 @@ class CommentoPostComponent extends Component {
     }
 
     getMyCommentVote(comment, i) {
-        CommentVoteDataService.getMyVote(comment.id)
-            .then(res => {
-                comment.myvote = res.data.up;
-                this.state.comments[i] = comment;
-                this.setState({ comments: this.state.comments });
-            });
+        if (isUserLoggedIn())
+            CommentVoteDataService.getMyVote(comment.id)
+                .then(res => {
+                    comment.myvote = res.data.up;
+                    this.state.comments[i] = comment;
+                    this.setState({ comments: this.state.comments });
+                });
     }
 
     getMyChildCommentVote(comment, i, j) {
-        CommentVoteDataService.getMyVote(comment.id)
-            .then(res => {
-                comment.myvote = res.data.up;
-                this.state.comments[i].children[j] = comment;
-                this.setState({ comments: this.state.comments });
-            });
+        if (isUserLoggedIn())
+            CommentVoteDataService.getMyVote(comment.id)
+                .then(res => {
+                    comment.myvote = res.data.up;
+                    this.state.comments[i].children[j] = comment;
+                    this.setState({ comments: this.state.comments });
+                });
     }
 
     onCommentVoteChange(up, comment, i) {
@@ -217,10 +220,11 @@ class CommentoPostComponent extends Component {
     }
 
     getMyPostVote() {
-        VoteDataService.getMyVote(this.state.postId)
-            .then(res => {
-                this.setState({ myvote: res.data.up });
-            });
+        if (isUserLoggedIn())
+            VoteDataService.getMyVote(this.state.postId)
+                .then(res => {
+                    this.setState({ myvote: res.data.up });
+                });
     }
 
     render() {

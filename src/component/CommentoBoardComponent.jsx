@@ -5,6 +5,7 @@ import PostDataService from '../service/PostDataService';
 import VoteDataService from '../service/VoteDataService';
 import BoardDataService from '../service/BoardDataService';
 import { Formik, Form, Field } from 'formik';
+import { isUserLoggedIn } from '../service/AuthenticationService';
 
 class CommentoBoardComponent extends Component {
 
@@ -64,12 +65,13 @@ class CommentoBoardComponent extends Component {
     }
 
     getMyVote(post, i) {
-        VoteDataService.getMyVote(post.id)
-            .then(res => {
-                post.myvote = res.data.up;
-                this.state.posts[i] = post;
-                this.setState({ posts: this.state.posts });
-            });
+        if (isUserLoggedIn())
+            VoteDataService.getMyVote(post.id)
+                .then(res => {
+                    post.myvote = res.data.up;
+                    this.state.posts[i] = post;
+                    this.setState({ posts: this.state.posts });
+                });
     }
 
     onVoteChange(up, post, i) {

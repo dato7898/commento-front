@@ -281,6 +281,16 @@
   width: auto;
 }
 
+@media(max-width: 580px) {
+  .alice-carousel__next-btn {
+    display: none;
+  }
+
+  .alice-carousel__prev-btn {
+    display: none;
+  }
+}
+
 .alice-carousel__next-btn-item,
 .alice-carousel__prev-btn-item {
   color: #434343;
@@ -835,7 +845,7 @@
   font-weight: 400;
   letter-spacing: normal;
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: anywhere;
   font-family: Rubik, sans-serif;
 }
 
@@ -933,7 +943,7 @@
   background-color: rgb(67, 67, 67);
   display: flex;
   flex-direction: column;
-  padding: 40px 20px 40px 20px;
+  padding: 40px 20px 20px 20px;
   align-items: center;
 }
 
@@ -960,13 +970,32 @@
   flex-basis: auto;
   width: calc(100% - 30px);
   word-wrap: break-word;
-  margin-top: 25px;
+  margin-top: 15px;
   font-size: 16px !important;
+  display: flex;
+  align-items: center;
+}
+
+.admin-menu .head-span {
+  margin-bottom: 10px;
+}
+
+.admin-panel-section img {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%) sepia(0%) saturate(5616%) hue-rotate(157deg) brightness(116%) contrast(108%);
+  margin-right: 10px;
 }
 
 .admin-menu hr {
   border-color: #fff;
   width: 100%;
+  border-width: 1px;
+  border-color: rgba(100, 100, 100, 1);
+}
+
+.admin-menu .accordion {
+  width: calc(100% - 30px);
 }
 
 .admin-menu .card {
@@ -976,11 +1005,67 @@
 
 .admin-menu .card-header {
   border: none;
+  background-color: initial;
+  padding: 5px 0 0 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.admin-menu .card-header span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.admin-menu .card-header img {
+  height: 15px;
+  width: 15px;
+  margin-right: 20px;
+}
+
+.admin-menu .card-body {
+  padding: 20px 0 0 0;
+}
+
+.admin-menu .card-body span {
+  font-size: 12px;
+  line-height: 2.33;
+  font-weight: 500;
+  letter-spacing: .033em;
 }
 
 .admin-menu .card-body {
   display: flex;
   flex-direction: column;
+}
+
+.admin-menu .head-hr {
+  border-width: 2px;
+  border-color: #fff;
+}
+
+.admin-menu .spaces-link {
+  font-size: 12px;
+  line-height: 2.33;
+  font-weight: 500;
+  letter-spacing: .033em;
+  word-break: break-word;
+  width: calc(100% - 30px);
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.spaces-link img {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%) sepia(0%) saturate(5616%) hue-rotate(157deg) brightness(116%) contrast(108%);
+  margin-right: 10px;
+}
+
+.data-link {
+  padding-top: 10px;
 }
 
 @import "react-alice-carousel/lib/alice-carousel.css";
