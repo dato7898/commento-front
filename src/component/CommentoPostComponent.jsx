@@ -41,6 +41,7 @@ class CommentoPostComponent extends Component {
         this.onCommentDelete = this.onCommentDelete.bind(this);
         this.onPostVoteChange = this.onPostVoteChange.bind(this);
         this.getMyPostVote = this.getMyPostVote.bind(this);
+        this.toLocaleDate = this.toLocaleDate.bind(this);
 
     }
 
@@ -57,11 +58,16 @@ class CommentoPostComponent extends Component {
                 this.setState({
                     title: res.data.title,
                     details: res.data.details,
-                    date: new Date(res.data.created).toLocaleDateString(),
+                    date: this.toLocaleDate(res.data.created),
                     status: res.data.status.name,
                     authorName: res.data.author.name
                 });
             });
+    }
+
+    toLocaleDate(strDate) {
+        const date = new Date(strDate);
+        return date.toLocaleDateString() + " " + date.toLocaleTimeString();
     }
 
     getAllComment() {
@@ -300,14 +306,13 @@ class CommentoPostComponent extends Component {
                                                     <div>
                                                         <img src="/img/user-avatar.jpg" className="comment-avatar" alt="" />
                                                     </div>
-
                                                     <div className="comment-renderer">
                                                         <div className="comment-author">
                                                             <div className="comment-author-name">
                                                                 {comment.author.name}
                                                             </div>
                                                             <div className="comment-date">
-                                                                4 года назад
+                                                                {this.toLocaleDate(comment.created)}
                                                             </div>
                                                         </div>
                                                         <div className="comment-content">
@@ -332,12 +337,10 @@ class CommentoPostComponent extends Component {
                                                                     className="dislike-icon" onClick={() => this.onCommentVoteChange(false, comment, i)} alt=""
                                                                 />
                                                             </div>
-
                                                             <div className="comment-action-wrapper">
                                                                 <div className="reply-button" onClick={() => this.onReplyComment(comment.id, comment.id)} >
                                                                     Ответить
                                                                 </div>
-
                                                                 {comment.isOwner &&
                                                                     <>
                                                                         <div className="reply-button" onClick={() => this.onChangeComment(comment.id)} >
@@ -349,11 +352,8 @@ class CommentoPostComponent extends Component {
                                                                     </>
                                                                 }
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                 </div>
                                                 <div className="comment-reply-wrapper">
                                                     {comment.childrenCount ?
@@ -376,7 +376,7 @@ class CommentoPostComponent extends Component {
                                                                                 {childComment.author.name}
                                                                             </div>
                                                                             <div className="comment-date">
-                                                                                4 года назад
+                                                                                {this.toLocaleDate(childComment.created)}
                                                                             </div>
                                                                         </div>
                                                                         <div className="comment-content">

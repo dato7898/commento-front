@@ -9,6 +9,7 @@ import RoadmapComponent from './RoadmapComponent';
 import FeedbackComponent from './FeedbackComponent';
 import CommentoBoardComponent from './CommentoBoardComponent';
 import CommentoPostComponent from './CommentoPostComponent';
+import AdminPanelComponent from './admin/AdminPanelComponent';
 import ForgotPasswordComponent from './auth/ForgotPasswordComponent';
 import ResetPasswordComponent from './auth/ResetPasswordComponent';
 import ResetPasswordRoute from './route/ResetPasswordRoute';
@@ -84,6 +85,7 @@ class CommentoApp extends Component {
                         <Route path={`/feedback`} exact component={FeedbackComponent} />
                         <Route path={`/board/:boardId`} exact component={CommentoBoardComponent} />
                         <Route path={`/post/:postId`} exact component={CommentoPostComponent} />
+                        <Route path={`/admin`} exact component={AdminPanelComponent} />
                     </Switch>
                     <FooterComponent />
                 </>
