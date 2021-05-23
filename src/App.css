@@ -962,6 +962,7 @@
   min-height: 100px;
   background-color: #e9e9e9;
   height: 100%;
+  padding: 20px 15px;
 }
 
 .admin-panel-section {
@@ -1066,6 +1067,94 @@
 
 .data-link {
   padding-top: 10px;
+}
+
+.profile-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-wrap .profile-head {
+  font-size: 22px;
+  font-family: Rubik, sans-serif;
+  color: #434343;
+}
+
+.profile-wrap hr {
+  padding-bottom: 20px;
+}
+
+.profile-wrap .image-setting {
+  display: flex;
+}
+
+.profile-wrap .prof-pic {
+  margin: 0;
+  border-radius: 100%;
+  filter: grayscale(1);
+}
+
+.upload-img-btn {
+  font-family: Rubik, sans-serif;
+  color: #434343;
+  text-align: center;
+  padding: 10px 20px;
+  margin-left: 20px;
+  border: solid;
+  border-width: thin;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-wrap .input-wrap {
+  border-radius: 5px;
+  border: solid;
+  border-width: thin;
+  border-color: #9b9b9b;
+  margin-top: 20px;
+  padding: 0 10px;
+  width: 100%;
+}
+
+.profile-wrap .input-wrap input {
+  width: 100%;
+  background: none;
+  outline: none;
+  border: none;
+  margin-bottom: 10px;
+  color: #434343;
+}
+
+.profile-wrap .form-wrap {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-wrap .input-wrap span {
+  font-family: Rubik, sans-serif;
+  color: rgb(137 137 137);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.profile-wrap .save-btn {
+  text-transform: uppercase;
+  padding: 12px 18px;
+  margin-top: 20px;
+  background-color: #a9a9a9;
+  color: #fff;
+  border-radius: 5px;
+  align-self: flex-end;
+  max-width: 75px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: Rubik, sans-serif;
+  cursor: pointer;
 }
 
 @import "react-alice-carousel/lib/alice-carousel.css";

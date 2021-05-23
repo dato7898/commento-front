@@ -24,8 +24,8 @@ class AuthenticationService {
 
     loginSuccessful(userData) {
         Cookies.set(window.TOKEN_HEADER, userData.jwt, { expires: 7 });
-        Cookies.set(window.REFRESH_TOKEN_HEADER, userData.jwtRefresh, { expires: 7 })
-        Cookies.set(window.USER_ID, userData.userId, { expires: 7 })
+        Cookies.set(window.REFRESH_TOKEN_HEADER, userData.jwtRefresh, { expires: 7 });
+        Cookies.set(window.USER_ID, userData.userId, { expires: 7 });
         setupAxiosHeader(createJWTToken(userData.jwt));
     }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Accordion, Card } from 'react-bootstrap';
+import ProfileSettingComponent from './ProfileSettingComponent';
 
 class AdminPanelComponent extends Component {
 
@@ -129,7 +130,7 @@ class AdminPanelComponent extends Component {
                     </div>
                     <div className="col-md-9">
                         <div className="admin-dashboard">
-
+                            <ProfileSettingComponent history={this.props.history} />
                         </div>
                     </div>
                 </div>

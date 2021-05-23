@@ -12,6 +12,12 @@ class UploadFileService {
         });
     }
 
+    convertToBase64(img) {
+        if (img && img.byteLength) {
+            return Buffer.from(img, 'binary').toString('base64');
+        }
+    }
+
 }
 
 export default new UploadFileService()
