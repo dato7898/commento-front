@@ -12,6 +12,12 @@ class UploadFileService {
         });
     }
 
+    loadFavicon(businessId) {
+        return axios.get(`${window.API_URL}/loadfavicon/${businessId}`, {
+            responseType: 'arraybuffer'
+        });
+    }
+
     convertToBase64(img) {
         if (img && img.byteLength) {
             return Buffer.from(img, 'binary').toString('base64');
