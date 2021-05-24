@@ -40,8 +40,8 @@ class CommentoApp extends Component {
         if (isUserLoggedIn()) {
             UploadService.loadImage()
                 .then(response => {
-                    if (response.data && response.data.byteLength) {
-                        const base64 = Buffer.from(response.data, 'binary').toString('base64');
+                    const base64 = UploadService.convertToBase64(response.data);
+                    if (base64) {
                         this.setState({ image: "data:;base64," + base64 });
                     }
                 })
