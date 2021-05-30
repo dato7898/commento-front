@@ -6,7 +6,7 @@ class ListPostComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            businessId: this.props.match.params.businessId,
+            businessName: this.props.match.params.businessName,
             boardId: this.props.match.params.boardId,
             posts: [],
             message: null
@@ -24,7 +24,7 @@ class ListPostComponent extends Component {
     }
 
     refreshPosts() {
-        PostDataService.retrieveAllPosts(this.state.businessId, this.state.boardId)
+        PostDataService.retrieveAllPosts(this.state.businessName, this.state.boardId)
             .then(
                 response => {
                     this.setState({ posts: response.data });
@@ -33,7 +33,7 @@ class ListPostComponent extends Component {
     }
 
     deletePostClicked(id) {
-        PostDataService.deletePost(this.state.businessId, this.state.boardId, id)
+        PostDataService.deletePost(this.state.businessName, this.state.boardId, id)
             .then(() => {
                 this.setState({ message: `Delete of post ${id} Successful` });
                 this.refreshPosts();
@@ -43,15 +43,15 @@ class ListPostComponent extends Component {
 
     updatePostClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/${id}/edit`);
+        this.props.history.push(`/business/${this.state.businessName}/board/${this.state.boardId}/post/${id}/edit`);
     }
 
     addPostClicked() {
-        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/new/edit`);
+        this.props.history.push(`/business/${this.state.businessName}/board/${this.state.boardId}/post/new/edit`);
     }
 
     getPostClicked(id) {
-        this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post/${id}`);
+        this.props.history.push(`/business/${this.state.businessName}/board/${this.state.boardId}/post/${id}`);
     }
 
     goHome() {

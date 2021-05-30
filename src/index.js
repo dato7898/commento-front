@@ -9,9 +9,9 @@ import { createJWTToken, setupAxiosHeader } from './service/AuthenticationServic
 
 
 window.API_URL = "http://193.123.71.211:8080";
-window.APP_URL = "http://193.123.71.211:3000";
+window.APP_URL = "193.123.71.211:3000";
 //window.API_URL = "http://localhost:8080";
-//window.APP_URL = "http://localhost:3000";
+//window.APP_URL = "localhost:3000";
 window.TOKEN_HEADER = 'authenticatedUserToken';
 window.REFRESH_TOKEN_HEADER = 'authenticatedUserRefreshToken';
 window.RESET_PASSWORD_CODE = 'resetPasswordCode';
@@ -54,9 +54,7 @@ axios.interceptors.response.use(
                   }
               })
               .catch((error) => {
-                // Этот код никогда не сработает?
-                if (/*error.response.status !== 401*/ window.location.href !== window.APP_URL + "/login")
-                  document.location.href = window.APP_URL + '/login';
+                console.log(error);
               });
       } 
       return Promise.reject(error);

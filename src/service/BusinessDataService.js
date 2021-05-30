@@ -2,16 +2,20 @@ import axios from 'axios';
 
 class BusinessDataService {
 
-    deleteBusiness(businessId) {
-        return axios.delete(`${window.API_URL}/business/${businessId}`);
+    deleteBusiness(businessName) {
+        return axios.delete(`${window.API_URL}/business/${businessName}`);
     }
 
-    retrieveBusiness(businessId) {
-        return axios.get(`${window.API_URL}/business/${businessId}`);
+    retrieveBusiness(businessName) {
+        return axios.get(`${window.API_URL}/business/${businessName}`);
     }
 
     createBusiness(business) {
         return axios.post(`${window.API_URL}/business`, business);
+    }
+
+    updateBusiness(business, businessName) {
+        return axios.put(`${window.API_URL}/business/${businessName}`, business);
     }
 
 }

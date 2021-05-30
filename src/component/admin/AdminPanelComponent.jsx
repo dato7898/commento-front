@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Accordion, Card } from 'react-bootstrap';
 import ProfileSettingComponent from './ProfileSettingComponent';
+import CompanySettingComponent from './CompanySettingComponent';
 
 class AdminPanelComponent extends Component {
 
@@ -9,12 +10,14 @@ class AdminPanelComponent extends Component {
         super(props);
 
         this.state = {
-
+            activeTab: 0
         }
 
         this.spaceSelect = this.spaceSelect.bind(this);
         this.workSelect = this.workSelect.bind(this);
-        this.boardSelect = this.boardSelect.bind(this);   
+        this.boardSelect = this.boardSelect.bind(this);
+        this.switchTab = this.switchTab.bind(this);
+        this.chooseTab = this.chooseTab.bind(this);
     }
 
     spaceSelect() {
@@ -29,6 +32,21 @@ class AdminPanelComponent extends Component {
         this.setState({ boardSelect: !this.state.boardSelect });
     }
 
+    switchTab() {
+        switch (this.state.activeTab) {
+            case 0:
+                return <></>
+            case 1:
+                return <ProfileSettingComponent history={this.props.history} />;
+            case 2:
+                return <CompanySettingComponent history={this.props.history} />;
+        }
+    }
+
+    chooseTab(tabIndex) {
+        this.setState({ activeTab: tabIndex });
+    }
+
     render() {
         return (
             <div className="container admin-panel-wrap">
@@ -36,15 +54,15 @@ class AdminPanelComponent extends Component {
                     <div className="col-md-3">
                         <div className="admin-menu">
                             <span className="head-span">Вы и Компания</span>
-                            <span className="admin-panel-section">
+                            <span className="admin-panel-section" onClick={() => this.chooseTab(0)}>
                                 <img src="./icons/home.svg" alt="home" /> 
                                 Home
                             </span>
-                            <span className="admin-panel-section">
+                            <span className="admin-panel-section" onClick={() => this.chooseTab(1)}>
                                 <img src="./icons/profile.svg" alt="profile" /> 
                                 Мои данные
                             </span>
-                            <span className="admin-panel-section">
+                            <span className="admin-panel-section" onClick={() => this.chooseTab(2)}>
                                 <img src="./icons/building.svg" alt="building" />
                                 Компания
                             </span>
@@ -130,7 +148,7 @@ class AdminPanelComponent extends Component {
                     </div>
                     <div className="col-md-9">
                         <div className="admin-dashboard">
-                            <ProfileSettingComponent history={this.props.history} />
+                            {this.switchTab()}
                         </div>
                     </div>
                 </div>

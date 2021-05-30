@@ -6,14 +6,18 @@ class UploadFileService {
         return axios.post(`${window.API_URL}/uploadfile`, formData)
     }
 
+    uploadFavicon(formData, businessName) {
+        return axios.post(`${window.API_URL}/uploadfavicon/${businessName}`, formData)
+    }
+
     loadImage() {
         return axios.get(`${window.API_URL}/loadimage`, {
             responseType: 'arraybuffer'
         });
     }
 
-    loadFavicon(businessId) {
-        return axios.get(`${window.API_URL}/loadfavicon/${businessId}`, {
+    loadFavicon(businessName) {
+        return axios.get(`${window.API_URL}/loadfavicon/${businessName}`, {
             responseType: 'arraybuffer'
         });
     }

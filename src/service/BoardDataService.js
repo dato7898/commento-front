@@ -2,24 +2,24 @@ import axios from 'axios';
 
 class BoardDataService {
 
-    retrieveAllBoards(businessId) {
-        return axios.get(`${window.API_URL}/business/${businessId}/board`);
+    retrieveAllBoards(businessName) {
+        return axios.get(`${window.API_URL}/business/${businessName}/board`);
     }
 
-    deleteBoard(businessId, boardId) {
-        return axios.delete(`${window.API_URL}/business/${businessId}/board/${boardId}`);
+    deleteBoard(businessName, boardId) {
+        return axios.delete(`${window.API_URL}/business/${businessName}/board/${boardId}`);
     }
 
-    retrieveBoard(businessId, boardId) {
-        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}`);
+    retrieveBoard(businessName, boardId) {
+        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}`);
     }
 
-    updateBoard(businessId, boardId, board) {
-        return axios.put(`${window.API_URL}/business/${businessId}/board/${boardId}`, board);
+    updateBoard(businessName, boardId, board) {
+        return axios.put(`${window.API_URL}/business/${businessName}/board/${boardId}`, board);
     }
 
-    createBoard(businessId, board) {
-        return axios.post(`${window.API_URL}/business/${businessId}/board`, board);
+    createBoard(businessName, board) {
+        return axios.post(`${window.API_URL}/business/${businessName}/board`, board);
     }
 
 }

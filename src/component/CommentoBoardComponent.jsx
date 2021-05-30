@@ -14,7 +14,7 @@ class CommentoBoardComponent extends Component {
 
         this.state = {
             selected: undefined,
-            businessId: "commento",
+            businessName: "commento",
             boardId: this.props.match.params.boardId,
             posts: [],
             title: '',
@@ -96,7 +96,7 @@ class CommentoBoardComponent extends Component {
             isPrivate: false
         };
 
-        PostDataService.createPost(this.state.businessId, this.state.boardId, post)
+        PostDataService.createPost(this.state.businessName, this.state.boardId, post)
             .then(() => {
                 this.refreshPosts();
             });
@@ -115,14 +115,14 @@ class CommentoBoardComponent extends Component {
 
     onTitleChange(e) {
         const title = e.target.value;
-        PostDataService.postExist(this.state.businessId, this.state.boardId, title)
+        PostDataService.postExist(this.state.businessName, this.state.boardId, title)
             .then(response => {
                 response.data === true 
                     ? this.setState({ titleError: 'post with title already exist' }) 
                     : this.setState({ titleError: undefined });
             })
         
-        PostDataService.searchPosts(this.state.businessId, this.state.boardId, title)
+        PostDataService.searchPosts(this.state.businessName, this.state.boardId, title)
             .then(response => {
                 this.setState({ foundPosts: response.data });
             })

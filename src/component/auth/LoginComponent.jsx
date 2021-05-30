@@ -10,7 +10,8 @@ class LoginComponent extends Component {
             username: 'David',
             password: 'qwerty',
             hasLoginFailed: false,
-            showSuccessMessage: false
+            showSuccessMessage: false,
+            businessName: window.location.host.split('.')[0]
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -61,7 +62,7 @@ class LoginComponent extends Component {
                     User Name: <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
                     Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
                     <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
-                    <p><a href={window.APP_URL + "/forgot_password"}>Forgot your password?</a></p>
+                    <p><a href={`http://${this.state.businessName}.${window.APP_URL}/forgot_password`}>Forgot your password?</a></p>
                 </div>
             </div>
         )

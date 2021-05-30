@@ -14,7 +14,7 @@ class ViewPostComponent extends Component {
 
         this.state = {
             // а что если больше Int'a?
-            businessId: this.props.match.params.businessId,
+            businessName: this.props.match.params.businessName,
             boardId: this.props.match.params.boardId,
             postId: this.props.match.params.postId,
             title: '',
@@ -50,7 +50,7 @@ class ViewPostComponent extends Component {
     }
 
     getPost() {
-        PostDataService.retrievePost(this.state.businessId, this.state.boardId, this.state.postId)
+        PostDataService.retrievePost(this.state.businessName, this.state.boardId, this.state.postId)
             .then(response => this.setState({
                 details: response.data.details,
                 status: response.data.status.name,
@@ -126,7 +126,7 @@ class ViewPostComponent extends Component {
     }
 
     onStatusChange() {
-        PostDataService.updatePostStatus(this.state.businessId, this.state.boardId, this.state.postId, 2)
+        PostDataService.updatePostStatus(this.state.businessName, this.state.boardId, this.state.postId, 2)
             .then(response => this.setState({
                 details: response.data.details,
                 status: response.data.status.name,

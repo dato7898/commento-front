@@ -8,7 +8,7 @@ class BoardEditComponent extends Component {
         super(props);
 
         this.state = {
-            businessId: this.props.match.params.businessId,
+            businessName: this.props.match.params.businessName,
             boardId: this.props.match.params.boardId,
             name: ''
         };
@@ -23,7 +23,7 @@ class BoardEditComponent extends Component {
             return;
         }
 
-        BoardDataService.retrieveBoard(this.state.businessId, this.state.boardId)
+        BoardDataService.retrieveBoard(this.state.businessName, this.state.boardId)
             .then(response => this.setState({
                 name: response.data.name
             }));
@@ -35,11 +35,11 @@ class BoardEditComponent extends Component {
         };
 
         if (this.state.boardId === "new") {
-            BoardDataService.createBoard(this.state.businessId, board)
-                .then(() => this.props.history.push(`/business/${this.state.businessId}/board`));
+            BoardDataService.createBoard(this.state.businessName, board)
+                .then(() => this.props.history.push(`/business/${this.state.businessName}/board`));
         } else {
-            BoardDataService.updateBoard(this.state.businessId, this.state.boardId, board)
-                .then(() => this.props.history.push(`/business/${this.state.businessId}/board`));
+            BoardDataService.updateBoard(this.state.businessName, this.state.boardId, board)
+                .then(() => this.props.history.push(`/business/${this.state.businessName}/board`));
         }
     }
 

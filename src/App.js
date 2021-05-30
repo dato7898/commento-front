@@ -10,7 +10,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      businessId: window.location.host.split('.')[0]
+      businessName: window.location.host.split('.')[0]
     };
 
     this.retrieveBusiness = this.retrieveBusiness.bind(this);
@@ -22,11 +22,11 @@ class App extends Component {
   }
 
   retrieveBusiness() {
-    BusinessDataService.retrieveBusiness(this.state.businessId)
+    BusinessDataService.retrieveBusiness(this.state.businessName)
     .then(res => {
-      if (res.data && res.data.id) {
+      if (res.data && res.data.name) {
         this.setState({ businessExist: true });
-        window.businessId = res.data.id
+        window.businessName = res.data.name
         this.loadFavicon();
       } else {
         this.setState({ noBusiness: "Такой компании не существует" })
@@ -38,7 +38,7 @@ class App extends Component {
   }
 
   loadFavicon() {
-    UploadService.loadFavicon(window.businessId)
+    UploadService.loadFavicon(window.businessName)
       .then(response => {
         const base64 = UploadService.convertToBase64(response.data);
         if (base64) {

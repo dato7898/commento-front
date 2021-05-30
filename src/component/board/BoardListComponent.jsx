@@ -8,7 +8,7 @@ class BoardListComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            businessId: this.props.match.params.businessId,
+            businessName: this.props.match.params.businessName,
             userId: Cookies.get(window.USER_ID),
             boards: [],
             message: null,
@@ -28,7 +28,7 @@ class BoardListComponent extends Component {
     }
 
     refreshBoards() {
-        BoardDataService.retrieveAllBoards(this.state.businessId)
+        BoardDataService.retrieveAllBoards(this.state.businessName)
             .then(
                 response => {
                     console.log(response);
@@ -38,7 +38,7 @@ class BoardListComponent extends Component {
     }
 
     checkBusinessOwner() {
-        BusinessDataService.retrieveBusiness(this.state.businessId)
+        BusinessDataService.retrieveBusiness(this.state.businessName)
             .then(
                 response => {
                     this.setState({ isBusinessOwner: response.data.author.id == this.state.userId });
@@ -57,15 +57,15 @@ class BoardListComponent extends Component {
 
     updateBoardClicked(id) {
         console.log('update ' + id)
-        this.props.history.push(`/business/${this.state.businessId}/board/${id}/edit`);
+        this.props.history.push(`/business/${this.state.businessName}/board/${id}/edit`);
     }
 
     addBoardClicked() {
-        this.props.history.push(`/business/${this.state.businessId}/board/new/edit`);
+        this.props.history.push(`/business/${this.state.businessName}/board/new/edit`);
     }
 
     getBoardClicked(id) {
-        this.props.history.push(`/business/${this.state.businessId}/board/${id}/post`);
+        this.props.history.push(`/business/${this.state.businessName}/board/${id}/post`);
     }
 
     goHome() {

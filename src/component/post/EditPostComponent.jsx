@@ -9,7 +9,7 @@ class EditPostComponent extends Component {
 
         this.state = {
             // а что если больше Int'a?
-            businessId: this.props.match.params.businessId,
+            businessName: this.props.match.params.businessName,
             boardId: this.props.match.params.boardId,
             postId: this.props.match.params.postId,
             title: '',
@@ -29,7 +29,7 @@ class EditPostComponent extends Component {
             return;
         }
 
-        PostDataService.retrievePost(this.state.businessId, this.state.boardId, this.state.postId)
+        PostDataService.retrievePost(this.state.businessName, this.state.boardId, this.state.postId)
             .then(response => this.setState({
                 details: response.data.details,
                 title: response.data.title,
@@ -45,11 +45,11 @@ class EditPostComponent extends Component {
         };
 
         if (this.state.postId === "new") {
-            PostDataService.createPost(this.state.businessId, this.state.boardId, post)
-                .then(() => this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post`));
+            PostDataService.createPost(this.state.businessName, this.state.boardId, post)
+                .then(() => this.props.history.push(`/business/${this.state.businessName}/board/${this.state.boardId}/post`));
         } else {
-            PostDataService.updatePost(this.state.businessId, this.state.boardId, this.state.postId, post)
-                .then(() => this.props.history.push(`/business/${this.state.businessId}/board/${this.state.boardId}/post`));
+            PostDataService.updatePost(this.state.businessName, this.state.boardId, this.state.postId, post)
+                .then(() => this.props.history.push(`/business/${this.state.businessName}/board/${this.state.boardId}/post`));
         }
     }
 
@@ -66,14 +66,14 @@ class EditPostComponent extends Component {
 
     onTitleChange(e) {
         const title = e.target.value;
-        PostDataService.postExist(this.state.businessId, this.state.boardId, title)
+        PostDataService.postExist(this.state.businessName, this.state.boardId, title)
             .then(response => {
                 response.data === true 
                     ? this.setState({ titleError: 'post with title already exist' }) 
                     : this.setState({ titleError: undefined });
             })
         
-        PostDataService.searchPosts(this.state.businessId, this.state.boardId, title)
+        PostDataService.searchPosts(this.state.businessName, this.state.boardId, title)
             .then(response => {
                 this.setState({ foundPosts: response.data });
             })

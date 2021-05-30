@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
-import UploadService from '../../service/UploadFileService';
-import UserDataService from '../../service/UserDataService';
 import Dropzone from 'react-dropzone'
-import AuthenticationService from '../../service/AuthenticationService';
+import UploadService from '../../service/UploadFileService';
+import BusinessDataService from '../../service/BusinessDataService';
 
-class ProfileSettingComponent extends Component {
+class CompanySettingComponent extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            name: 'Amir',
-            email: '666amir777@mail.ru'
+            name: 'robtics',
         }
 
         this.handleLoadImage = this.handleLoadImage.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
         this.onNameChange = this.onNameChange.bind(this);
-        this.onEmailChange = this.onEmailChange.bind(this);
-        this.handleSaveUser = this.handleSaveUser.bind(this);
+        this.handleSaveBusiness = this.handleSaveBusiness.bind(this);
     }
 
     componentDidMount() {
@@ -26,7 +23,7 @@ class ProfileSettingComponent extends Component {
     }
 
     handleLoadImage() {
-        UploadService.loadImage()
+        UploadService.loadFavicon(window.businessName)
             .then(response => {
                 const base64 = UploadService.convertToBase64(response.data);
                 if (base64) {
@@ -40,20 +37,15 @@ class ProfileSettingComponent extends Component {
         this.setState({ name: event.target.value });
     }
 
-    onEmailChange(event) {
-        this.setState({ email: event.target.value });
-    }
-
-    handleSaveUser() {
-        UserDataService
-            .updateUser({ 
+    handleSaveBusiness() {
+        BusinessDataService
+            .updateBusiness({ 
                 name: this.state.name,
-                email: this.state.email,
-                imageUrl: this.state.imageUrl
-            })
+                faviconPath: this.state.faviconPath
+            }, window.businessName)
             .then((response) => {
-                AuthenticationService.loginSuccessful(response.data);
-                window.location.pathname = '/admin';
+                window.businessName = this.state.name;
+                window.location = `http://${this.state.name}.${window.APP_URL}/admin`;
             }).catch((error) => {
                 console.log(error);
             });
@@ -61,10 +53,10 @@ class ProfileSettingComponent extends Component {
 
     uploadFile(files) {
         var formData = new FormData();
-        formData.append("file", files[0]);
-        UploadService.uploadFile(formData)
+        formData.append("favicon", files[0]);
+        UploadService.uploadFavicon(formData, window.businessName)
             .then(response => {
-                this.setState({ imageUrl: response.data });
+                this.setState({ faviconPath: response.data });
             })
             .catch(error => {
                 console.log(error);
@@ -75,19 +67,19 @@ class ProfileSettingComponent extends Component {
         return (
             <div className="profile-wrap">
                 <div className="profile-head">
-                    Account & Profile
+                    Company Settings
                 </div>
                 <hr />
                 <div className="image-setting">
                     {this.state.image &&
-                        <img className="prof-pic" src={this.state.image} alt="profile picture" width="50" height="50" />
+                        <img className="prof-pic" src={this.state.image} alt="company favicon" width="50" height="50" />
                     }
                     <Dropzone className="upload-img-btn" onDrop={this.uploadFile}>
                     {({getRootProps, getInputProps}) => (
                         <section>
                         <div {...getRootProps()}>
                             <input {...getInputProps()} />
-                            <p className="upload-img-btn">Upload image</p>
+                            <p className="upload-img-btn">Upload favicon</p>
                         </div>
                         </section>
                     )}
@@ -96,13 +88,9 @@ class ProfileSettingComponent extends Component {
                 <div className="form-wrap">
                     <div className="input-wrap">
                         <span>Name</span><br />
-                        <input value="Amir" onChange={this.onNameChange} />
+                        <input value="robtics" onChange={this.onNameChange} />
                     </div>
-                    <div className="input-wrap">
-                        <span>Email</span><br />
-                        <input value="666amir777@mail.ru" onChange={this.onEmailChange} />
-                    </div>
-                    <div className="save-btn" onClick={this.handleSaveUser}>
+                    <div className="save-btn" onClick={this.handleSaveBusiness}>
                         Save
                     </div>
                 </div>
@@ -112,4 +100,4 @@ class ProfileSettingComponent extends Component {
 
 }
 
-export default ProfileSettingComponent;
+export default CompanySettingComponent;

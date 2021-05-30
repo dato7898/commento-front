@@ -13,7 +13,7 @@ class CommentoPostComponent extends Component {
         super(props);
 
         this.state = { 
-            businessId: "commento",
+            businessName: "commento",
             boardId: props.location.state.boardId,
             postId: this.props.match.params.postId,
             title: '',
@@ -54,7 +54,7 @@ class CommentoPostComponent extends Component {
     }
 
     getPost() {
-        PostDataService.retrievePost(this.state.businessId, this.state.boardId, this.state.postId)
+        PostDataService.retrievePost(this.state.businessName, this.state.boardId, this.state.postId)
             .then(res => {
                 this.setState({
                     title: res.data.title,

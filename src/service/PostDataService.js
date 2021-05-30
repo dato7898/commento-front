@@ -2,39 +2,39 @@ import axios from 'axios'
 
 class PostDataService {
 
-    retrieveAllPosts(businessId, boardId) {
+    retrieveAllPosts(businessName, boardId) {
         //console.log('executed service')
-        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/post`,
+        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}/post`,
             //{ headers: { authorization: 'Basic ' + window.btoa(INSTRUCTOR + ":" + PASSWORD) } }
         );
     }
 
-    deletePost(businessId, boardId, postId) {
-        return axios.delete(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`);
+    deletePost(businessName, boardId, postId) {
+        return axios.delete(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}`);
     }
 
-    retrievePost(businessId, boardId, postId) {
-        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`);
+    retrievePost(businessName, boardId, postId) {
+        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}`);
     }
 
-    updatePost(businessId, boardId, postId, post) {
-        return axios.put(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}`, post);
+    updatePost(businessName, boardId, postId, post) {
+        return axios.put(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}`, post);
     }
 
-    updatePostStatus(businessId, boardId, postId, statusId) {
-        return axios.put(`${window.API_URL}/business/${businessId}/board/${boardId}/post/${postId}/status?status=${statusId}`);
+    updatePostStatus(businessName, boardId, postId, statusId) {
+        return axios.put(`${window.API_URL}/business/${businessName}/board/${boardId}/post/${postId}/status?status=${statusId}`);
     }
 
-    createPost(businessId, boardId, post) {
-        return axios.post(`${window.API_URL}/business/${businessId}/board/${boardId}/post`, post);
+    createPost(businessName, boardId, post) {
+        return axios.post(`${window.API_URL}/business/${businessName}/board/${boardId}/post`, post);
     }
 
-    postExist(businessId, boardId, postTitle) {
-        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/postexist?title=${postTitle}`);
+    postExist(businessName, boardId, postTitle) {
+        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}/postexist?title=${postTitle}`);
     }
 
-    searchPosts(businessId, boardId, searchQuery) {
-        return axios.get(`${window.API_URL}/business/${businessId}/board/${boardId}/postsearch?searchQuery=${searchQuery}`);
+    searchPosts(businessName, boardId, searchQuery) {
+        return axios.get(`${window.API_URL}/business/${businessName}/board/${boardId}/postsearch?searchQuery=${searchQuery}`);
     }
 
 }
