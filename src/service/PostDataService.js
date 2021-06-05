@@ -39,4 +39,4 @@ class PostDataService {
 
 }
 
-export default new PostDataService()
+export default new PostDataService();

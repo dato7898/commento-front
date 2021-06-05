@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-   this.retrieveBusiness()
+   this.retrieveBusiness();
   }
 
   retrieveBusiness() {

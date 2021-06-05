@@ -88,7 +88,7 @@ class CompanySettingComponent extends Component {
                 <div className="form-wrap">
                     <div className="input-wrap">
                         <span>Name</span><br />
-                        <input value="robtics" onChange={this.onNameChange} />
+                        <input value={this.state.name} onChange={this.onNameChange} />
                     </div>
                     <div className="save-btn" onClick={this.handleSaveBusiness}>
                         Save

@@ -945,6 +945,7 @@
   flex-direction: column;
   padding: 40px 20px 20px 20px;
   align-items: center;
+  height: 100%;
 }
 
 .admin-menu span {
@@ -1034,6 +1035,7 @@
   line-height: 2.33;
   font-weight: 500;
   letter-spacing: .033em;
+  cursor: pointer;
 }
 
 .admin-menu .card-body {
@@ -1057,6 +1059,7 @@
   display: flex;
   align-items: center;
   padding-bottom: 10px;
+  cursor: pointer;
 }
 
 .spaces-link img {
@@ -1083,6 +1086,7 @@
 
 .profile-wrap hr {
   padding-bottom: 20px;
+  width: 100%;
 }
 
 .profile-wrap .image-setting {
@@ -1117,6 +1121,10 @@
   margin-top: 20px;
   padding: 0 10px;
   width: 100%;
+}
+
+.profile-wrap .input-wrap.board-name {
+  margin-top: 0;
 }
 
 .profile-wrap .input-wrap input {

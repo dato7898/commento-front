@@ -6,6 +6,10 @@ class BoardDataService {
         return axios.get(`${window.API_URL}/business/${businessName}/board`);
     }
 
+    retrieveAllBoardsByWorkplace(businessName, workplaceId) {
+        return axios.get(`${window.API_URL}/business/${businessName}/workplace/${workplaceId}/board`);
+    }
+
     deleteBoard(businessName, boardId) {
         return axios.delete(`${window.API_URL}/business/${businessName}/board/${boardId}`);
     }

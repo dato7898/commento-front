@@ -96,11 +96,11 @@ class ProfileSettingComponent extends Component {
                 <div className="form-wrap">
                     <div className="input-wrap">
                         <span>Name</span><br />
-                        <input value="Amir" onChange={this.onNameChange} />
+                        <input value={this.state.name} onChange={this.onNameChange} />
                     </div>
                     <div className="input-wrap">
                         <span>Email</span><br />
-                        <input value="666amir777@mail.ru" onChange={this.onEmailChange} />
+                        <input value={this.state.email} onChange={this.onEmailChange} />
                     </div>
                     <div className="save-btn" onClick={this.handleSaveUser}>
                         Save
