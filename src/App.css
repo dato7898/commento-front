@@ -1123,8 +1123,8 @@
   width: 100%;
 }
 
-.profile-wrap .input-wrap.board-name {
-  margin-top: 0;
+.board-setting-header {
+  font-size: 20px;
 }
 
 .profile-wrap .input-wrap input {
@@ -1164,6 +1164,43 @@
   font-weight: 600;
   font-family: Rubik, sans-serif;
   cursor: pointer;
+}
+
+.profile-wrap .save-btn.subscribe {
+  align-self: flex-start;
+  max-width: 105px;
+}
+
+.sub-text-wrap {
+  margin: 10px 0;
+}
+
+.sub-text-wrap a {
+  color:rgba(100, 100, 100, 1);
+  text-decoration: underline;
+}
+
+.profile-wrap .sub-price {
+  color:rgba(100, 100, 100, 1);
+  margin-top: 20px;
+  text-decoration: underline;
+}
+
+.invite-text {
+  font-size: 17px;
+}
+
+.profile-wrap .invite-input input {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.profile-wrap .input-wrap.invite-input {
+  margin-top: 8px;
+}
+
+.profile-wrap .save-btn.invite-btn {
+  max-width: 112px;
 }
 
 @import "react-alice-carousel/lib/alice-carousel.css";

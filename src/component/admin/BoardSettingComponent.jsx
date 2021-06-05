@@ -41,8 +41,9 @@ class BoardSettingComponent extends Component {
                     Board Settings
                 </div>
                 <hr />
+                <div className="board-setting-header">Naming</div>
                 <div className="form-wrap">
-                    <div className="input-wrap board-name">
+                    <div className="input-wrap">
                         <span>Name</span><br />
                         <input value={name} onChange={this.onNameChange} />
                     </div>

@@ -7,6 +7,8 @@ import SpaceDataService from '../../service/SpaceDataService';
 import WorkplaceDataService from '../../service/WorkplaceDataService';
 import BoardDataService from '../../service/BoardDataService';
 import BoardSettingComponent from './BoardSettingComponent';
+import PlansAndBillingsComponent from './PlansAndBillingsComponent';
+import AdminsInvitesComponent from './AdminsInvitesComponent';
 
 class AdminPanelComponent extends Component {
 
@@ -67,10 +69,8 @@ class AdminPanelComponent extends Component {
     }
 
     onBoardSelect(board) {
-        this.setState({ 
-            selectedBoard: board,
-            activeTab: 3
-        });
+        this.setState({ selectedBoard: board });
+        this.chooseTab(3);
     }
 
     spaceSelect() {
@@ -99,6 +99,10 @@ class AdminPanelComponent extends Component {
                     refreshBoards={this.loadBoardsBySelectedWorkplace}
                     businessName={this.state.businessName}
                 />;
+            case 4: 
+                return <PlansAndBillingsComponent />;
+            case 5:
+                return <AdminsInvitesComponent />;
         }
     }
 
@@ -131,7 +135,7 @@ class AdminPanelComponent extends Component {
                                 <img src="./icons/building.svg" alt="building" />
                                 Компания
                             </span>
-                            <span className="admin-panel-section">
+                            <span className="admin-panel-section" onClick={() => this.chooseTab(4)}>
                                 <img src="./icons/dollar.svg" alt="dollar" />
                                 Тарифы и Счета
                             </span>
@@ -162,7 +166,7 @@ class AdminPanelComponent extends Component {
                                     <img src="./icons/gear.svg" alt="gear" />
                                     Данные пространства
                                 </span>
-                                <span className="spaces-link admin-link">
+                                <span className="spaces-link admin-link" onClick={() => this.chooseTab(5)}>
                                     <img src="./icons/security.svg" alt="security" />
                                     Админы пространства
                                 </span>
