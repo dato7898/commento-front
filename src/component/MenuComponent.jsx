@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import { isUserLoggedIn as checkUserLogin, logout } from '../service/AuthenticationService'
+import { isUserLoggedIn as checkUserLogin, isBusinessOwner as checkBusinessOwner, logout } from '../service/AuthenticationService'
 
 class MenuComponent extends Component {
 
@@ -10,6 +10,7 @@ class MenuComponent extends Component {
 
     render() {
         const isUserLoggedIn = checkUserLogin();
+        const isBusinessOwner = checkBusinessOwner();
 
         return (
             <header >
@@ -65,6 +66,13 @@ class MenuComponent extends Component {
                                         className="nav-link auth-link" to="/login"
                                     >
                                         ВОЙТИ
+                                    </Link>
+                                </li>}
+                                {isUserLoggedIn && isBusinessOwner && <li className="nav-item">
+                                    <Link 
+                                            className="nav-link auth-link" to="/admin" 
+                                        >
+                                            АДМИН
                                     </Link>
                                 </li>}
                                 {isUserLoggedIn && <li className="nav-item">

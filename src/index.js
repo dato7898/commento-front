@@ -16,6 +16,7 @@ window.TOKEN_HEADER = 'authenticatedUserToken';
 window.REFRESH_TOKEN_HEADER = 'authenticatedUserRefreshToken';
 window.RESET_PASSWORD_CODE = 'resetPasswordCode';
 window.USER_ID = "userId";
+window.BUSINESS_OWNER = "isBusinessOwner";
 
 // проверить что отдаёт createJWTToken
 setupAxiosHeader(createJWTToken(Cookies.get(window.TOKEN_HEADER)));

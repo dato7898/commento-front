@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginComponent from './auth/LoginComponent';
 import NotAuthenticatedRoute from './route/NotAuthenticatedRoute';
+import NotAdminRoute from './route/NotAdminRoute';
 import RegisterComponent from './auth/RegisterComponent';
 import MenuComponent from './MenuComponent';
 import FooterComponent from './FooterComponent';
@@ -63,9 +64,7 @@ class CommentoApp extends Component {
                         handleLoadImage={this.handleLoadImage}
                     />
                     <Switch>
-                        {/* Сделать домашнюю страницу
-                            <AuthenticatedRoute path="/" exact component={HomePageComponent} /> 
-                        */}
+                        {<Route path={`/`} exact component={FeedbackComponent} />}
                         <NotAuthenticatedRoute 
                             path="/login" 
                             exact 
@@ -85,7 +84,7 @@ class CommentoApp extends Component {
                         <Route path={`/feedback`} exact component={FeedbackComponent} />
                         <Route path={`/board/:boardId`} exact component={CommentoBoardComponent} />
                         <Route path={`/post/:postId`} exact component={CommentoPostComponent} />
-                        <Route path={`/admin`} exact component={AdminPanelComponent} />
+                        <NotAdminRoute path={`/admin`} exact component={AdminPanelComponent} />
                     </Switch>
                     <FooterComponent />
                 </>

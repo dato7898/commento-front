@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import React, { Component } from 'react';
 import './App.css';
 import CommentoApp from './component/CommentoApp';
@@ -27,6 +28,8 @@ class App extends Component {
       if (res.data && res.data.name) {
         this.setState({ businessExist: true });
         window.businessName = res.data.name
+        const userId = Cookies.get(window.USER_ID);
+        Cookies.set(window.BUSINESS_OWNER, userId == res.data.author.id);
         this.loadFavicon();
       } else {
         this.setState({ noBusiness: "Такой компании не существует" })
@@ -51,10 +54,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        {this.state.businessExist ?
-          <CommentoApp /> : 
-          <>{this.state.noBusiness}</>
-        }
+          <CommentoApp />
       </div>
     );
   }

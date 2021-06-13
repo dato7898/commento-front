@@ -18,6 +18,13 @@ class AdminsInvitesComponent extends Component {
                         Send invite
                     </div>
                 </div>
+                <div className="admin-list">
+                    <img src="/img/user-avatar.jpg" alt="avatar" width="40" height="40" />
+                    <div>
+                        <div className="admin-name">Amir</div>
+                        <div className="admin-email">666amir777@mail.ru</div>
+                    </div>
+                </div>
             </div>
         );
     }

@@ -1203,5 +1203,62 @@
   max-width: 112px;
 }
 
+.admin-list {
+  display: flex;
+  margin-top: 20px;
+}
+
+.admin-list img {
+  border-radius: 50%;
+  filter: grayscale(1);
+  margin-right: 10px;
+}
+
+.admin-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.admin-email {
+  color:rgba(100, 100, 100, 1);
+  font-size: 14px;
+}
+
+.register-window {
+  margin-top: 100px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-container h1 {
+  text-align: center;
+}
+
+.login-container input {
+  margin-bottom: 8px;
+}
+
+.login-container button {
+  filter: grayscale(1);
+}
+
+.login-container a {
+  filter: grayscale(1);
+}
+
+.login-container .soc-net-wrap {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 20px;
+}
+
+.login-container img {
+  width: 30px;
+  height: 30px;
+}
+
 @import "react-alice-carousel/lib/alice-carousel.css";
 /*@import url(https://unpkg.com/bootstrap@4.1.0/dist/css/bootstrap.min.css);*/

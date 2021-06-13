@@ -57,9 +57,9 @@ class RegisterComponent extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Register</h1>
-                <div className="container">
+            <div className="register-window">
+                <div className="container d-flex justify-content-center flex-column login-container">
+                    <h1>Register</h1>
                     User Name: <input type="text" name="name" value={this.state.name} onChange={this.handleChange} />
                     Email: <input type="email" name="email" value={this.state.email} onChange={this.handleChange} />
                     Password: <input type="password" name="password" value={this.state.password} onChange={this.handleChange} />
