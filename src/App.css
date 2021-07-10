@@ -1136,6 +1136,16 @@
   color: #434343;
 }
 
+.profile-wrap .input-wrap textarea {
+  width: 100%;
+  background: none;
+  outline: none;
+  border: none;
+  margin-bottom: 3px;
+  color: #434343;
+  resize: none;
+}
+
 .profile-wrap .form-wrap {
   max-width: 500px;
   display: flex;

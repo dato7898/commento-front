@@ -9,6 +9,7 @@ import BoardDataService from '../../service/BoardDataService';
 import BoardSettingComponent from './BoardSettingComponent';
 import PlansAndBillingsComponent from './PlansAndBillingsComponent';
 import AdminsInvitesComponent from './AdminsInvitesComponent';
+import MailingComponent from './MailingComponent';
 
 class AdminPanelComponent extends Component {
 
@@ -46,6 +47,7 @@ class AdminPanelComponent extends Component {
     }
 
     loadWorkplaces(spaceId) {
+        this.setState({ selectedSpaceId: spaceId });
         WorkplaceDataService.retrieveAllWorkplaces(spaceId)
             .then(res => this.setState({ 
                 workplaces: res.data,
@@ -103,6 +105,8 @@ class AdminPanelComponent extends Component {
                 return <PlansAndBillingsComponent />;
             case 5:
                 return <AdminsInvitesComponent />;
+            case 6:
+                return <MailingComponent selectedSpaceId={this.state.selectedSpaceId} />
         }
     }
 
@@ -169,6 +173,10 @@ class AdminPanelComponent extends Component {
                                 <span className="spaces-link admin-link" onClick={() => this.chooseTab(5)}>
                                     <img src="./icons/security.svg" alt="security" />
                                     Админы пространства
+                                </span>
+                                <span className="spaces-link admin-link" onClick={() => this.chooseTab(6)}>
+                                    <img src="./icons/mailing.svg" alt="mailing" />
+                                    Рассылка
                                 </span>
                                 <Accordion onSelect={this.workSelect}>
                                     <Card>
