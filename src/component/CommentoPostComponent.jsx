@@ -4,6 +4,7 @@ import PostDataService from '../service/PostDataService';
 import VoteDataService from '../service/VoteDataService';
 import CommentDataService from '../service/CommentDataService';
 import CommentVoteDataService from '../service/CommentVoteDataService';
+import UploadFileService from '../service/UploadFileService';
 import CommentCreateComponent from '../component/comment/CommentCreateComponent';
 import { isUserLoggedIn } from '../service/AuthenticationService';
 
@@ -43,6 +44,7 @@ class CommentoPostComponent extends Component {
         this.onPostVoteChange = this.onPostVoteChange.bind(this);
         this.getMyPostVote = this.getMyPostVote.bind(this);
         this.toLocaleDate = this.toLocaleDate.bind(this);
+        this.getAvatar = this.getAvatar.bind(this);
 
     }
 
@@ -61,8 +63,10 @@ class CommentoPostComponent extends Component {
                     details: res.data.details,
                     date: this.toLocaleDate(res.data.created),
                     status: res.data.status.name,
-                    authorName: res.data.author.name
+                    authorName: res.data.author.name,
+                    authorId: res.data.author.id
                 });
+                this.getAvatar(res.data.author.id);
             });
     }
 
@@ -227,13 +231,26 @@ class CommentoPostComponent extends Component {
                 });
     }
 
+    getAvatar(userId) {
+        if (this.state.authorId) {
+            UploadFileService.loadAvatar(userId)
+                .then(response => {
+                    const base64 = UploadFileService.convertToBase64(response.data);
+                    if (base64) {
+                        this.setState({ avatar: "data:;base64," + base64 });
+                    }
+                })
+                .catch(error => console.log(error));
+        }
+    }
+
     render() {
 
         let { 
             title, details, status, 
             authorName, likes, voters,
             comments, parentId, date,
-            commentId, myvote
+            commentId, myvote, avatar
         } = this.state;
 
         return (
@@ -283,7 +300,12 @@ class CommentoPostComponent extends Component {
                                     <div>
                                         <div className="post-author">
                                             <div className="user-avatar">
-                                                <img src="/img/user-avatar.jpg" className="vote-avatar" alt="" />
+                                                {avatar ?
+                                                    <img src={avatar} className="vote-avatar" alt="" /> : 
+                                                    <div class="no-avatar" style={{ backgroundColor: "rgb(170, 187, 221)" }}>
+                                                        {authorName ? authorName.charAt(0): ""}
+                                                    </div>
+                                                }
                                             </div>
                                             <div className="user-info">
                                                 {authorName}

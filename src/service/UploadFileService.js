@@ -28,6 +28,12 @@ class UploadFileService {
         }
     }
 
+    loadAvatar(userId) {
+        return axios.get(`${window.API_URL}/avatar/${userId}`, {
+            responseType: 'arraybuffer'
+        });
+    }
+
 }
 
 export default new UploadFileService()
